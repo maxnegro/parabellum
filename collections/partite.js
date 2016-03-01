@@ -15,7 +15,12 @@ Partite.deny({
 let PartiteSchema = new SimpleSchema({
   "owner": {
     type: String,
-    label: "Creatore della partita."
+    label: "Creatore della partita.",
+    autoValue: function () {
+      if (this.isInsert) {
+        return Meteor.userId();
+      }
+    }
   },
   "maxplayers": {
     type: Number,
@@ -25,4 +30,4 @@ let PartiteSchema = new SimpleSchema({
   }
 });
 
-Collection.attachSchema( PartiteSchema );
+Partite.attachSchema( PartiteSchema );
