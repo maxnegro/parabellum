@@ -68,14 +68,16 @@
 */
 
 .board {
-	position: relative;
+	/* position: relative;
 	width: 2202px;
 	height: 1616px;
-	margin-bottom: 5px;
+	margin-bottom: 5px; */
+    height: 80vh;
+    overflow: scroll;
 }
 
 .board4p {
-	background-image: url(img/roman_empire.jpg);
+	/* background-image: url(img/roman_empire.jpg); */
 }
 
 
