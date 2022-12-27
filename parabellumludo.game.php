@@ -233,7 +233,20 @@ class ParaBellumLudo extends Table
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }    
     */
+    
 
+    function pblRecruitment() {
+        $this->gamestate->nextState('');
+    }
+
+    function pblIsLastPlayer() {
+        $this->gamestate->nextState('nextPlayer');
+    }
+
+    function pblBarbarianInvasions() {
+        $this->gamestate->nextState('newYear');
+    }
+ 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie
 ////////////

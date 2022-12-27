@@ -73,12 +73,12 @@ $machinestates = array(
     ),
 
     3 => array(
-    		"name" => "playerShipPlacement",
-    		"description" => clienttranslate('${actplayer} is constructing ships'),
-    		"descriptionmyturn" => clienttranslate('${you} must construct a ships or pass'),
-    		"type" => "activeplayer",
-    		"possibleactions" => array( "constructShip", "pass" ),
-    		"transitions" => array( "constructShip" => 3, "pass" => 4)
+        "name" => "playerShipPlacement",
+        "description" => clienttranslate('${actplayer} is constructing ships'),
+        "descriptionmyturn" => clienttranslate('${you} must construct a ship or pass'),
+        "type" => "activeplayer",
+        "possibleactions" => array( "constructShip", "pass" ),
+        "transitions" => array( "constructShip" => 3, "pass" => 4)
     ),
 
     4 => array(
