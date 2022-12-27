@@ -64,14 +64,67 @@ $machinestates = array(
     // Note: ID=2 => your first state
 
     2 => array(
-    		"name" => "playerTurn",
-    		"description" => clienttranslate('${actplayer} must play a card or pass'),
-    		"descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-    		"type" => "activeplayer",
-    		"possibleactions" => array( "playCard", "pass" ),
-    		"transitions" => array( "playCard" => 2, "pass" => 2 )
+        "name" => "recruitment",
+        "description" => clienttranslate('Recruiting new cohorts'),
+        "type" => "game",
+        "action" => "pblRecruitment",
+        "updateGameProgression" => true,   
+        "transitions" => array( "" => 3 )
     ),
-    
+
+    3 => array(
+    		"name" => "playerShipPlacement",
+    		"description" => clienttranslate('${actplayer} is constructing ships'),
+    		"descriptionmyturn" => clienttranslate('${you} must construct a ships or pass'),
+    		"type" => "activeplayer",
+    		"possibleactions" => array( "constructShip", "pass" ),
+    		"transitions" => array( "constructShip" => 3, "pass" => 4)
+    ),
+
+    4 => array(
+        "name" => "playerFortPlacement",
+        "description" => clienttranslate('${actplayer} is building forts'),
+        "descriptionmyturn" => clienttranslate('${you} must build a fort or pass'),
+        "type" => "activeplayer",
+        "possibleactions" => array( "buildFort", "pass" ),
+        "transitions" => array( "buildFort" => 4, "pass" => 5)
+    ),
+
+    5 => array(
+        "name" => "playerTroopsMovement",
+        "description" => clienttranslate('${actplayer} is moving troops'),
+        "descriptionmyturn" => clienttranslate('${you} must move some troops or pass'),
+        "type" => "activeplayer",
+        "possibleactions" => array( "moveTroop", "pass" ),
+        "transitions" => array( "moveTroop" => 5, "pass" => 6)
+    ),
+
+    6 => array(
+        "name" => "playerCombat",
+        "description" => clienttranslate('${actplayer} is fighting'),
+        "descriptionmyturn" => clienttranslate('${you} must fight for a province, retire or pass'),
+        "type" => "activeplayer",
+        "possibleactions" => array( "attackProvince", "retireFromFight", "pass" ),
+        "transitions" => array( "attackProvince" => 6, "retireFromFight" => 6, "pass" => 10)
+    ),
+
+    10 => array(
+        "name" => "isLastPlayer",
+        "description" => '',
+        "type" => "game",
+        "action" => "pblIsLastPlayer",
+        "updateGameProgression" => true,   
+        "transitions" => array( "nextPlayer" => 3, "barbarianInvasions" => 11 )
+    ),
+  
+    11 => array(
+        "name" => "barbarianInvasions",
+        "description" => clienttranslate('Barbarians are pressing at the borders'),
+        "type" => "game",
+        "action" => "pblBarbarianInvasions",
+        "transitions" => array( "newYear" => 2, "endGame" => 99)
+    ),
+
 /*
     Examples:
     
