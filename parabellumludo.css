@@ -76,9 +76,8 @@
     overflow: scroll;
 }
 
-.board4p {
-	/* background-image: url(img/roman_empire.jpg); */
+.board img {
+    width: 100%;
 }
-
 
 

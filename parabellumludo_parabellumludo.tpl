@@ -25,7 +25,7 @@
     Please REMOVE this comment before publishing your game on BGA
 -->
 
-<div id="board" class="board shadow board4p"><img src="{GAMETHEMEURL}img/roman_empire.jpg"></div>
+<div id="board" class="board shadow board4p"><img src="{GAMETHEMEURL}img/RomanEmpire_bg.jpg"></div>
 
 <script type="text/javascript">
 
