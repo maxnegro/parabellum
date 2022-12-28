@@ -92,6 +92,8 @@ class ParaBellumLudo extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
+
+        // Populate provinceDeck
         $provinces = array();
         foreach ($this->provinces as $id => $attributes) {
             $provinces[] = array (
@@ -105,7 +107,18 @@ class ParaBellumLudo extends Table
         // Shuffle deck
         $this->provinceDeck->shuffle('deck');
 
-
+        $players = self::loadPlayersBasicInfos();
+        $startingProvinces = floor(count($provinces) / count($players));
+        foreach( $players as $player_id => $player )
+        {
+           $cards = $this->provinceDeck->pickCards( $startingProvinces, 'deck', $player_id );
+              
+           // Notify player about his cards
+           self::notifyPlayer( $player_id, 'newHand', '', array( 
+               'cards' => $cards
+            ) );
+        }  
+   
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
