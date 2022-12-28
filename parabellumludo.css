@@ -80,4 +80,21 @@
     width: 100%;
 }
 
+.province_card_container {
+    display: flex;
+}
+
+.province_card_background {
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    width: 8em;
+    height: 10em;
+}
+
+h4.province_card_name {
+    background-color: lightgray;
+    padding: 4px 10px;
+    margin: -10px;
+}
 

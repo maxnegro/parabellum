@@ -27,6 +27,20 @@
 
 <div id="board" class="board shadow board4p"><img src="{GAMETHEMEURL}img/RomanEmpire_bg.jpg"></div>
 
+<!-- BEGIN provinces -->
+  <div id="{PLAYER_ID}_provinces" class="whiteblock">
+   <h3><span style="color: #{PLAYER_COLOR};">{PLAYER_NAME}</span>: {PROVINCES}</h3>
+   <div class="province_card_container">
+   <!-- BEGIN province_cards -->
+     <div class="province_card_background">
+       <h4 class="province_card_name">{PROVINCE_NAME}<h4>
+       {PROVINCE_SUPPORT_LABEL}: {PROVINCE_SUPPORT}
+     </div>
+   <!-- END province_cards -->
+   </div>
+  </div>
+<!-- END provinces -->
+
 <script type="text/javascript">
 
 // Javascript HTML templates

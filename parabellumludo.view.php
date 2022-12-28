@@ -76,9 +76,35 @@ class view_parabellumludo_parabellumludo extends game_view
                                                     ...
                                                      ) );
         }
+
+        // Display a translated version of "My hand" at the place of the variable in the template
+        $this->tpl['MY_HAND'] = self::_("My hand");
+
+        // Display some raw HTML material at the place of the variable
+        $this->tpl['MY_HAND'] = self::raw( "<div class='myhand_icon'></div>" );
         
         */
 
+        $this->page->begin_block( "parabellumludo_parabellumludo", "province_cards" );
+        $this->page->begin_block( "parabellumludo_parabellumludo", "provinces" );
+        foreach( $players as $player_id => $player )
+        {
+            $this->page->reset_subblocks( 'province_cards' );
+            foreach($this->game->provinceDeck->getPlayerHand($player_id) as $card) {
+                $this->page->insert_block( "province_cards", array( 
+                    "PROVINCE_NAME" => $this->game->provinces[$card['type_arg']]['name'],
+                    "PROVINCE_SUPPORT" => $this->game->provinces[$card['type_arg']]['support'],
+                    "PROVINCE_SUPPORT_LABEL" => SELF::_('Cohors/year'),
+                ));
+            }
+            $this->page->insert_block( "provinces", array( 
+                "PLAYER_NAME" => $player['player_name'],
+                "PLAYER_ID" => $player_id,
+                "PLAYER_COLOR" => $player['player_color'],
+                "PROVINCES" => $this->game->provinceDeck->countCardInLocation('hand', $player_id),
+            ) );
+            
+        }
 
 
         /*********** Do not change anything below this line  ************/
