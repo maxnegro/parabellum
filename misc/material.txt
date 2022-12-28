@@ -236,23 +236,30 @@ $this->barbarians = array(
   1 => array(
     'name' => 'Hibernia et Caledonia',
     'borders'  => [1],
+  ),
   2 => array(
     'name' => 'Germania Magna',
     'borders'  => [28,29,30],
+  ),
   3 => array(
     'name' => 'Sarmatia',
     'borders'  => [26,28],
+  ),
   4 => array(
     'name' => 'Iberia',
     'borders'  => [17,18],
+  ),
   5 => array(
     'name' => 'Regnum Parthicum',
     'borders'  => [15,16,17],
+  ),
   6 => array(
     'name' => 'Arabia',
     'borders'  => [13,14,15],
+  ),
   7 => array(
     'name' => 'Gaetulia',
     'borders'  => [9,10,11,12],
+  ),
 );
 

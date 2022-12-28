@@ -40,6 +40,7 @@ foreach my $ix (1..@barbarians-1) {
     print "  $ix => array(\n";
     print "    'name' => '$barbarianNames[$ix]',\n";
     print "    'borders'  => [".join(',',@{$barbarians[$ix]})."],\n";
+    print "  ),\n";
 }
 print ");\n";
 print "\n";
