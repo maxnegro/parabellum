@@ -114,9 +114,13 @@ class ParaBellumLudo extends Table
            $cards = $this->provinceDeck->pickCards( $startingProvinces, 'deck', $player_id );
               
            // Notify player about his cards
-           self::notifyPlayer( $player_id, 'newHand', '', array( 
-               'cards' => $cards
-            ) );
+        //    self::notifyPlayer( $player_id, 'newHand', '', array( 
+        //        'cards' => $cards
+        //     ) );
+            self::notifyAllPlayers("playerLog", clienttranslate('${player_name} received ${provinceNbr} provinces in setup phase.'), array(
+                'player_name' => $player['player_name'],
+                'provinceNbr' => $startingProvinces,
+            ));
         }  
    
         // Activate first player (which is in general a good idea :) )
