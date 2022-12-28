@@ -273,9 +273,11 @@ class ParaBellumLudo extends Table
         $this->gamestate->nextState( 'some_gamestate_transition' );
     }    
     */
-    
 
     function pblRecruitment() {
+        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array('consular_year' => 1));
+//        self::notifyAllPlayers("newYear", "1", array()); // TODO save in db and increment after barbarians turn
+
         $this->gamestate->nextState('');
     }
 

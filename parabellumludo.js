@@ -28,6 +28,7 @@ function (dojo, declare) {
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
+            this.current_year = 0;
 
         },
         
@@ -58,13 +59,20 @@ function (dojo, declare) {
             
             // TODO: Set up your game interface here, according to "gamedatas"
             
- 
+            this.current_year = new ebg.counter();
+            this.current_year.create('consular_year');
+            
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
             console.log( "Ending game setup" );
         },
        
+        /* @Override */
+        updatePlayerOrdering() {
+            this.inherited(arguments);
+            dojo.place('timekeeping', 'player_boards', 'first');
+        },
 
         ///////////////////////////////////////////////////
         //// Game & client states
@@ -235,10 +243,17 @@ function (dojo, declare) {
             // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             // 
+            dojo.subscribe('newYear', this, 'notif_newYear');
+            this.notifqueue.setSynchronous('newYear', 3000);
         },  
         
         // TODO: from this point and below, you can write your game notifications handling methods
-        
+
+        notif_newYear: function( notif ) {
+            console.log('New consular year');
+            console.log(notif);
+            this.current_year.toValue(notif.args.consular_year);
+        },
         /*
         Example:
         

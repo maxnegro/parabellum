@@ -41,6 +41,13 @@
   </div>
 <!-- END provinces -->
 
+<div class="player-board" id="timekeeping">
+  <div class="player_board_inner">
+    Consular year: <span id="consular_year"></span>
+  </div>
+</div>
+
+
 <script type="text/javascript">
 
 // Javascript HTML templates
