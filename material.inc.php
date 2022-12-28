@@ -31,6 +31,28 @@ $this->card_types = array(
 );
 
 */
+$this->provinces = array(
+  1 => array(
+    "name" => "Baetica",
+    "support"  => 2,
+    "hasDocks" => true,
+  ),
+  2 => array(
+    "name" => "Lusitania",
+    "support" => 2,
+    "hasDocks" => true,
+  ),
+  3 => array(
+    "name" => "Tarraconensis",
+    "support" => 2,
+    "hasDocks" => true,
+  ),
+  4 => array(
+    "name" => "Aquitania",
+    "support" => 2,
+    "hasDocks" => true,
+  ),
+);
 
 
 

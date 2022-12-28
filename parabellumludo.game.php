@@ -40,6 +40,10 @@ class ParaBellumLudo extends Table
             //    "my_second_game_variant" => 101,
             //      ...
         ) );        
+
+        $this->provinceDeck = self::getNew( "module.common.deck" );
+	    $this->provinceDeck->init( "provincia" );        
+
 	}
 	
     protected function getGameName( )
@@ -88,7 +92,19 @@ class ParaBellumLudo extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
+        $provinces = array();
+        foreach ($this->provinces as $id => $attributes) {
+            $provinces[] = array (
+                "type" => "land",
+                "type_arg" => $id,
+                "nbr" => 1,
+            );
+        }
+        $this->provinceDeck->createCards( $provinces, 'deck' );
        
+        // Shuffle deck
+        $this->provinceDeck->shuffle('deck');
+
 
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
