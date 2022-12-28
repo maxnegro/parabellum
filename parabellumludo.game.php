@@ -111,15 +111,22 @@ class ParaBellumLudo extends Table
         $startingProvinces = floor(count($provinces) / count($players));
         foreach( $players as $player_id => $player )
         {
-           $cards = $this->provinceDeck->pickCards( $startingProvinces, 'deck', $player_id );
+            $cards = $this->provinceDeck->pickCards( $startingProvinces, 'deck', $player_id );
               
-           // Notify player about his cards
-        //    self::notifyPlayer( $player_id, 'newHand', '', array( 
-        //        'cards' => $cards
-        //     ) );
-            self::notifyAllPlayers("playerLog", clienttranslate('${player_name} received ${provinceNbr} provinces in setup phase.'), array(
+            // Notify player about his cards
+            //    self::notifyPlayer( $player_id, 'newHand', '', array( 
+            //        'cards' => $cards
+            //     ) );
+
+            $provinceList = array();
+            foreach ($cards as $card_id => $card) {
+                $provinceList[] = $this->provinces[$card['type_arg']]["name"];
+            }
+
+            self::notifyAllPlayers("playerLog", clienttranslate('${player_name} received ${provinceNbr} provinces in setup phase:<br>${provinceList}'), array(
                 'player_name' => $player['player_name'],
                 'provinceNbr' => $startingProvinces,
+                'provinceList' => join(', ', $provinceList),
             ));
         }  
    
