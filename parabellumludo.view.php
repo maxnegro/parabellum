@@ -106,6 +106,8 @@ class view_parabellumludo_parabellumludo extends game_view
             
         }
 
+        $this->page->begin_block( "parabellumludo_parabellumludo", "consular_year_block");
+        $this->page->insert_block("consular_year_block", array('consular_year_value' => $this->game->getGameStateValue('consular_year')));
 
         /*********** Do not change anything below this line  ************/
   	}

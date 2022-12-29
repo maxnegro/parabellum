@@ -41,11 +41,13 @@
   </div>
 <!-- END provinces -->
 
+<!-- BEGIN consular_year_block -->
 <div class="player-board" id="timekeeping">
   <div class="player_board_inner">
-    Consular year: <span id="consular_year"></span>
+    Consular year: <span id="consular_year">${consular_year_value}</span>
   </div>
 </div>
+<!-- END consular_year_block -->
 
 
 <script type="text/javascript">

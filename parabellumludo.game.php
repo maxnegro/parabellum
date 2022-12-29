@@ -39,6 +39,7 @@ class ParaBellumLudo extends Table
             //    "my_first_game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
+            'consular_year' => 10,
         ) );        
 
         $this->provinceDeck = self::getNew( "module.common.deck" );
@@ -92,6 +93,8 @@ class ParaBellumLudo extends Table
         //self::initStat( 'player', 'player_teststat1', 0 );  // Init a player statistics (for all players)
 
         // TODO: setup the initial game situation here
+
+        self::setGameStateInitialValue( 'consular_year', 0 );
 
         // Populate provinceDeck
         $provinces = array();
@@ -275,7 +278,8 @@ class ParaBellumLudo extends Table
     */
 
     function pblRecruitment() {
-        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array('consular_year' => 1));
+        $this->incGameStateValue('consular_year', 1);
+        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array('consular_year' => $this->getGameStateValue('consular_year')));
 //        self::notifyAllPlayers("newYear", "1", array()); // TODO save in db and increment after barbarians turn
 
         $this->gamestate->nextState('');
