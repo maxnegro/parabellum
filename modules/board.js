@@ -1,6 +1,6 @@
 "use strict";
 
-var mDiv=document.getElementById("map");
+var mDiv;
 var mSlots;
 
 var mBoxSize;
@@ -8,62 +8,67 @@ var mScale=1;
 
 var mPanZoom=null;
 
-var box=document.querySelector("#board");
-mBoxSize = {
-    x: box.offsetWidth,
-    y: box.offsetHeight,
+function InitBoard() {
+    var mDiv=document.getElementById("map");
+
+    var box=document.querySelector("#board");
+    mBoxSize = {
+        x: box.offsetWidth,
+        y: box.offsetHeight,
+    };
+
+    mPanZoom=panzoom(mDiv, {
+        minZoom: 0.2,
+        maxZoom: 3,
+        zoomDoubleClickSpeed: 1,
+        beforeWheel: function (e) {
+            // allow wheel-zoom only if altKey is down. Otherwise - ignore
+            var shouldIgnore = !e.altKey;
+            return shouldIgnore;
+        },
+    });
+
+    mPanZoom.on("transform", function (e) {
+        var t = e.getTransform();
+        mBoxSize.x=box.offsetWidth;
+        mBoxSize.y=box.offsetHeight;
+    });
+
+    //~ onScreenWidthChange();
+    resetZoom();
+
+    document.getElementById("board").style.overflow = "hidden";
+
+    let zbutton;
+    zbutton = document.getElementById("button-zoom-plus");
+    zbutton.addEventListener("mousedown", (e) => startZoomIn());
+    zbutton.addEventListener("mouseleave", (e) => stopZoom());
+    zbutton.addEventListener("mouseup", (e) => stopZoom());
+    zbutton.addEventListener("touchstart", (e) => startZoomIn());
+    zbutton.addEventListener("touchend", (e) => stopZoom());
+    zbutton = document.getElementById("button-zoom-minus");
+    zbutton.addEventListener("mousedown", (e) => startZoomOut());
+    zbutton.addEventListener("mouseleave", (e) => stopZoom());
+    zbutton.addEventListener("mouseup", (e) => stopZoom());
+    zbutton.addEventListener("touchstart", (e) => startZoomOut());
+    zbutton.addEventListener("touchend", (e) => stopZoom());
+    zbutton = document.getElementById("button-zoom-center");
+    zbutton.addEventListener("click", (e) => resetZoom());
+    zbutton.addEventListener("touchstart", (e) => resetZoom());
+}
+
+var zoomInterval;
+function startZoomIn() {
+    zoomInterval = setInterval(() => incPanzoom(), 10);
+};
+function startZoomOut() {
+    zoomInterval = setInterval(() => decPanzoom(), 10);
+};
+function stopZoom() {
+    clearInterval(zoomInterval);
 };
 
-var mPanZoom=panzoom(mDiv, {
-    minZoom: 0.2,
-    maxZoom: 3,
-    zoomDoubleClickSpeed: 1,
-    beforeWheel: function (e) {
-        // allow wheel-zoom only if altKey is down. Otherwise - ignore
-        var shouldIgnore = !e.altKey;
-        return shouldIgnore;
-    },
-});
-
-mPanZoom.on("transform", function (e) {
-    var t = e.getTransform();
-    mBoxSize.x=box.offsetWidth;
-    mBoxSize.y=box.offsetHeight;
-});
-
-self.onScreenWidthChange();
-self.resetZoom();
-
-document.getElementById("board").style.overflow = "hidden";
-
-let zbutton;
-zbutton = document.getElementById("button-zoom-plus");
-zbutton.addEventListener("mousedown", (e) => startZoomIn());
-zbutton.addEventListener("mouseleave", (e) => stopZoom());
-zbutton.addEventListener("mouseup", (e) => stopZoom());
-zbutton.addEventListener("touchstart", (e) => startZoomIn());
-zbutton.addEventListener("touchend", (e) => stopZoom());
-zbutton = document.getElementById("button-zoom-minus");
-zbutton.addEventListener("mousedown", (e) => startZoomOut());
-zbutton.addEventListener("mouseleave", (e) => stopZoom());
-zbutton.addEventListener("mouseup", (e) => stopZoom());
-zbutton.addEventListener("touchstart", (e) => startZoomOut());
-zbutton.addEventListener("touchend", (e) => stopZoom());
-zbutton = document.getElementById("button-zoom-center");
-zbutton.addEventListener("click", (e) => resetZoom());
-zbutton.addEventListener("touchstart", (e) => resetZoom());
-
-self.startZoomIn = function () {
-    self.zoomInterval = setInterval(() => incPanzoom(), 10);
-};
-self.startZoomOut = function () {
-    self.zoomInterval = setInterval(() => decPanzoom(), 10);
-};
-self.stopZoom = function () {
-    clearInterval(self.zoomInterval);
-};
-
-self.resetZoom = function () {
+function resetZoom() {
     let lMap = document.getElementById("board");
     let lJpg = document.getElementById("map-jpg");
     let lScale = 1.1*lMap.offsetHeight/lJpg.offsetHeight;
@@ -71,7 +76,7 @@ self.resetZoom = function () {
     let lZoomX=(lMap.offsetWidth * (1 - lScale)) / 2;
     let lZoomY=(lMap.offsetHeight * (1 - lScale)) / 2;
     mPanZoom.moveTo(lZoomX, lZoomY);
-    let t = vPanZoom.getTransform();
+    let t = mPanZoom.getTransform();
     let lDiff = t.scale * (lJpg.offsetHeight - lMap.offsetHeight);
     mPanZoom.moveBy(0, -lDiff / 2);
 };

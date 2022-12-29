@@ -31,6 +31,7 @@ function (dojo, declare) {
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
+            InitBoard();
 
         },
 
