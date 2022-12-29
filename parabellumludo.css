@@ -100,21 +100,53 @@
   /*pointer-events: none;*/
 }
 
-
-/*
-.board {
-    /* position: relative;
-    width: 2202px;
-    height: 1616px;
-    margin-bottom: 5px; **
-    height: 80vh;
-    overflow: scroll;
+#map-zoom {
+  position: absolute;
+  top: 20%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  transform: translateY(-50%);
+  margin: 0 10px;
 }
 
-.board img {
-    width: 100%;
+#map-zoom > div {
+  margin: 5px;
 }
-*/
+
+/**** Buttons ****/
+
+.button_zoom_minus {
+  width: 42px;
+  height: 42px;
+  background: url("img/css_sprites.png") -94px -2px;
+}
+
+.button_zoom_plus {
+  width: 42px;
+  height: 42px;
+  background: url("img/css_sprites.png") -2px -2px;
+}
+
+.button_zoom_center {
+  width: 42px;
+  height: 42px;
+  background: url("img/css_sprites.png") -48px -2px;
+}
+
+.button_pointer {
+  cursor: pointer;
+  border-radius: 12px;
+  border: solid 3px #cccccc;
+  transition: border-color 0.2s;
+}
+
+.button_pointer:hover {
+  border-color: #800000;
+}
+
+/**** Cards ****/
 
 .province_card_container {
     display: flex;

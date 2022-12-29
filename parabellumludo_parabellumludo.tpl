@@ -29,13 +29,11 @@
 <div id="board" class="board shadow board4p"><img src="{GAMETHEMEURL}img/RomanEmpire_bg.jpg"></div>
 -->
 <div id='board'>
-<!--
     <div id='map-zoom'>
-        <div id='button-zoom-plus' class='br-button-pointer bg-button_zoom_plus'></div>
-        <div id='button-zoom-center' class='br-button-pointer bg-button_zoom_center'></div>
-        <div id='button-zoom-minus' class='br-button-pointer bg-button_zoom_minus'></div>
+        <div id='button-zoom-plus' class='button_pointer button_zoom_plus'></div>
+        <div id='button-zoom-center' class='button_pointer button_zoom_center'></div>
+        <div id='button-zoom-minus' class='button_pointer button_zoom_minus'></div>
     </div>
--->
     <div id='map'>
         <img id='map-jpg' src='{GAMETHEMEURL}img/RomanEmpire_bg.jpg'>
 <!--

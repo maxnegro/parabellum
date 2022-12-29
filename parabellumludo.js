@@ -20,6 +20,7 @@ define([
     "ebg/core/gamegui",
     "ebg/counter",
     g_gamethemeurl + "modules/panzoom.js",
+    g_gamethemeurl + "modules/board.js",
 ],
 function (dojo, declare) {
     return declare("bgagame.parabellumludo", ebg.core.gamegui, {
