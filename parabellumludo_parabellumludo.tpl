@@ -36,9 +36,7 @@
     </div>
     <div id='map'>
         <img id='map-jpg' src='{GAMETHEMEURL}img/RomanEmpire_bg.jpg'>
-<!--
         <div id='map-tokens' class='map-layer'></div>
--->
     </div>
 </div>
 

@@ -7,8 +7,10 @@ var mBoxSize;
 var mScale=1;
 
 var mPanZoom=null;
+var root;
 
-function InitBoard() {
+function InitBoard(aRoot) {
+    root=aRoot;
     var mDiv=document.getElementById("map");
 
     var box=document.querySelector("#board");
@@ -105,3 +107,9 @@ function RemovePanZoom() {
     document.getElementById("board").style.overflow = "inherit";
 };
 
+function addToken(tX,tY,mX,mY) {
+    var token='<div class="desolation" style="top:'+mY+'px;right:'+mX+'px;"/>';
+
+
+    dojo.place(token, "map-tokens");
+}

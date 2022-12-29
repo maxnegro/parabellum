@@ -31,7 +31,9 @@ function (dojo, declare) {
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
-            InitBoard();
+            InitBoard(this);
+
+            addToken(2,46,300,300)
 
         },
 

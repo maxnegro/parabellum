@@ -167,3 +167,10 @@ h4.province_card_name {
     margin: -10px;
 }
 
+/**** Tokens ****/
+.desolation {
+    width: 42px;
+    height: 42px;
+    background: url("img/css_sprites.png") -2px -46px;
+    position:absolute;
+}
