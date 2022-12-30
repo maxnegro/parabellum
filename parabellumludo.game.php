@@ -226,7 +226,10 @@ class ParaBellumLudo extends Table
     }
     
     */
-
+    function playerPass() {
+    	self::checkAction( 'pass' ); 
+   	    $this->gamestate->nextState('pass');
+    }
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments
@@ -286,7 +289,13 @@ class ParaBellumLudo extends Table
     }
 
     function pblIsLastPlayer() {
-        $this->gamestate->nextState('nextPlayer');
+        $this->activeNextPlayer();
+        $nextPlayerTable = $this->getNextPlayerTable();
+        if ($this->getActivePlayerId() == $nextPlayerTable[0]) {
+            $this->gamestate->nextState('barbarianInvasions');
+        } else {
+            $this->gamestate->nextState('nextPlayer');
+        }
     }
 
     function pblBarbarianInvasions() {
