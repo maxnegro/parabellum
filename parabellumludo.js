@@ -78,7 +78,7 @@ function (dojo, declare) {
 
             this.current_year = new ebg.counter();
             this.current_year.create('consular_year');
-
+            this.current_year.toValue(gamedatas.consular_year);
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 
