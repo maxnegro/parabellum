@@ -9,10 +9,18 @@ var mScale=1;
 var mPanZoom=null;
 var root;
 
+
+var mapPositions = {
+    1:{
+        'units':[[1299,1400],[1385,1400]],
+        'ships':[[1576,1164],[1546,1194],[1516,1224]],
+    }
+};
+
+
 function InitBoard(aRoot) {
     root=aRoot;
     var mDiv=document.getElementById("map");
-
     var box=document.querySelector("#board");
     mBoxSize = {
         x: box.offsetWidth,
@@ -107,7 +115,8 @@ function RemovePanZoom() {
     document.getElementById("board").style.overflow = "inherit";
 };
 
-function addToken(tClass,tPlayer,tValue,mX,mY) {
+//~ function addToken(tClass,tPlayer,tValue,mX,mY) {
+function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
     var token=dojo.place('<div class="token"/>', "map-tokens");
     var tX;
     var tY;
@@ -123,8 +132,40 @@ function addToken(tClass,tPlayer,tValue,mX,mY) {
         tY=46+(tPlayer-1)*86;
     }
     token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
-    token.style.left=mX+"px";
-    token.style.top=mY+"px";
+    var mX;
+    var mY;
+    if (tClass==0) {
+        mX=mapPositions[tProv].units[0][0];
+        mY=mapPositions[tProv].units[0][1];
+    } else if (tClass==4) {
+        mX=mapPositions[tProv].ships[tSlot-1][0];
+        mY=mapPositions[tProv].ships[tSlot-1][1];
+    } else {
+        mX=mapPositions[tProv].units[tSlot-1][0];
+        mY=mapPositions[tProv].units[tSlot-1][1];
+    }
+    var x0=0;
+    var y0=0;
+    var scaleX=1;
+    var scaleY=1;
+    var map=document.getElementById("map");
+    if (map != null) {
+        var matrix=map.style.transform;
+        if (matrix.match(/matrix\(.*\)/)) {
+            matrix=matrix.split(/[\(\)]/)[1].split(/\s*,\s*/);
+            x0=+matrix[4];
+            y0=+matrix[5];
+            scaleX=+matrix[0];
+            scaleY=+matrix[3];
+        }
+    }
+console.log((mX*scaleX+x0)+"px");
+    token.style.left=Math.round(mX*scaleX+x0)+"px";
+console.log(mY);
+console.log(scaleY);
+console.log(y0);
+console.log((mY*scaleY+y0)+"px");
+    token.style.top=Math.round(mY*scaleY+y0)+"px";
     if (tClass>0 && tValue!=null) {
         var value=dojo.place('<div class="token-value">'+tValue+'</div>', token);
         value.style.color=[
