@@ -145,6 +145,12 @@ function (dojo, declare) {
             {
                 switch( stateName )
                 {
+                    case 'playerShipPlacement':
+                    case 'playerFortPlacement':
+                    case 'playerTroopsMovement':
+                    case 'playerCombat':
+                        this.addActionButton( 'button_pass', _('Next phase'), 'onPassToNextPhase');
+                        break;
 /*
                  Example:
 
@@ -185,6 +191,29 @@ function (dojo, declare) {
             _ make a call to the game server
 
         */
+
+        onPassToNextPhase: function(evt) {
+            console.log('onPassToNextPhase');
+            // Preventing default browser reaction
+            dojo.stopEvent( evt );
+            // Check that this action is possible (see "possibleactions" in states.inc.php)
+            if( ! this.checkAction( 'pass' ) )
+            {   return; }
+            this.ajaxcall( "/parabellumludo/parabellumludo/passToNextPhase.html", {
+                lock: true,
+                },
+            this, function( result ) {
+
+            // What to do after the server call if it succeeded
+            // (most of the time: nothing)
+
+            }, function( is_error) {
+
+            // What to do after the server call in anyway (success or failure)
+            // (most of the time: nothing)
+
+            } );
+        },
 
         /* Example:
 

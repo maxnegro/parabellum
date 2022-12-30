@@ -41,7 +41,11 @@
   	
   	// TODO: defines your action entry points there
 
-
+    public function passToNextPhase() {
+      self::setAjaxMode();
+      $this->game->passToNextPhase();
+      self::ajaxResponse();
+    }
     /*
     
     Example:

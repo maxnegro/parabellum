@@ -226,7 +226,7 @@ class ParaBellumLudo extends Table
     }
     
     */
-    function playerPass() {
+    function passToNextPhase() {
     	self::checkAction( 'pass' ); 
    	    $this->gamestate->nextState('pass');
     }
