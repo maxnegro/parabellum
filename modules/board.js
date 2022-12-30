@@ -20,8 +20,8 @@ function InitBoard(aRoot) {
     };
 
     mPanZoom=panzoom(mDiv, {
-        minZoom: 0.2,
-        maxZoom: 3,
+        minZoom: 0.12,
+        maxZoom: 1,
         zoomDoubleClickSpeed: 1,
         beforeWheel: function (e) {
             // allow wheel-zoom only if altKey is down. Otherwise - ignore
@@ -75,8 +75,8 @@ function resetZoom() {
     let lJpg = document.getElementById("map-jpg");
     let lScale = 1.1*lMap.offsetHeight/lJpg.offsetHeight;
     mPanZoom.zoomAbs(0, 0, lScale);
-    let lZoomX=(lMap.offsetWidth * (1 - lScale)) / 2;
     let lZoomY=(lMap.offsetHeight * (1 - lScale)) / 2;
+    let lZoomX=0;
     mPanZoom.moveTo(lZoomX, lZoomY);
     let t = mPanZoom.getTransform();
     let lDiff = t.scale * (lJpg.offsetHeight - lMap.offsetHeight);
@@ -108,7 +108,7 @@ function RemovePanZoom() {
 };
 
 function addToken(tX,tY,mX,mY) {
-    var token='<div class="desolation" style="top:'+mY+'px;right:'+mX+'px;"/>';
+    var token='<div class="desolation" style="top:'+mY+'px;left:'+mX+'px;"/>';
 
 
     dojo.place(token, "map-tokens");

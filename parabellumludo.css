@@ -90,13 +90,17 @@
 }
 
 #map-jpg {
+/*
   width: 100%;
+*/
 }
 .map-layer {
   position: absolute;
   top: 0;
+/*
   width: 100%;
   height: 100%;
+*/
   /*pointer-events: none;*/
 }
 
@@ -169,8 +173,8 @@ h4.province_card_name {
 
 /**** Tokens ****/
 .desolation {
-    width: 42px;
-    height: 42px;
+    width: 84px;
+    height: 84px;
     background: url("img/css_sprites.png") -2px -46px;
     position:absolute;
 }
