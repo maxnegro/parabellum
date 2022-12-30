@@ -107,9 +107,35 @@ function RemovePanZoom() {
     document.getElementById("board").style.overflow = "inherit";
 };
 
-function addToken(tX,tY,mX,mY) {
-    var token='<div class="desolation" style="top:'+mY+'px;left:'+mX+'px;"/>';
-
-
-    dojo.place(token, "map-tokens");
+function addToken(tClass,tPlayer,tValue,mX,mY) {
+    var token=dojo.place('<div class="token"/>', "map-tokens");
+    var tX;
+    var tY;
+    if (tClass==0) {
+        tX=2;
+        tY=46;
+    } else if (tClass==1) {
+        tX=2;
+        tY=132;
+        tPlayer=0;
+    } else {
+        tX=2+(tClass-1)*88;
+        tY=46+(tPlayer-1)*86;
+    }
+    token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
+    token.style.left=mX+"px";
+    token.style.top=mY+"px";
+    if (tClass>0 && tValue!=null) {
+        var value=dojo.place('<div class="token-value">'+tValue+'</div>', token);
+        value.style.color=[
+            'white',
+            'cyan',
+            'magenta',
+            'yellow',
+            'blue',
+            'red',
+            'green'
+        ][tPlayer];
+    }
+    return token
 }
