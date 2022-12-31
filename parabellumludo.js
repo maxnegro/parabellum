@@ -67,6 +67,10 @@ function (dojo, declare) {
             addToken(4,2,12,3,2);
             addToken(4,3,12,3,3);
 
+            addBorder(0,3,-1,1);
+            addBorder(2,12,1,2);
+            addBorder(3,12,2,3);
+
 
             // Setting up player boards
             for( var player_id in gamedatas.players )

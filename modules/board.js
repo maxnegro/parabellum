@@ -10,13 +10,24 @@ var mPanZoom=null;
 var root;
 
 var mapPositions = {
+  "-1":{
+        'borders':{
+            1:[1382,686,90],
+        },
+  },
   1:{
         'units':[[1300,1062],[1386,1062]],
         'ships':[[1028,1049],[982,1079],[936,1113]],
+        'borders':{
+            2:[1478,1178,45],
+        },
   },
   2:{
         'units':[[1605,1263],[1667,1329]],
         'ships':[[1597,1151],[1544,1178],[1494,1209]],
+        'borders':{
+            3:[1632,1457,135],
+        },
   },
   3:{
         'units':[[1317,1414],[1408,1451]],
@@ -235,7 +246,6 @@ function RemovePanZoom() {
     document.getElementById("board").style.overflow = "inherit";
 };
 
-//~ function addToken(tClass,tPlayer,tValue,mX,mY) {
 function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
     var token=dojo.place('<div class="token"/>', "map-tokens");
     var tX;
@@ -279,4 +289,30 @@ function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
         ][tPlayer];
     }
     return token
+}
+
+function addBorder(bPlayer,bValue,bFrom,bTo) {
+    var border=dojo.place('<div class="borderToken"/>', "map-tokens");
+    var bX=354;
+    var bY=46+(bPlayer)*61;
+    border.style.backgroundPosition="-"+bX+"px -"+bY+"px";
+    var mX=mapPositions[bFrom].borders[bTo][0];
+    var mY=mapPositions[bFrom].borders[bTo][1];
+    border.style.left=mX+"px";
+    border.style.top=mY+"px";
+    border.style.transform="rotate("+mapPositions[bFrom].borders[bTo][2]+"deg)";
+    if (bValue!=null) {
+        var value=dojo.place('<div class="border-value">'+bValue+'</div>', border);
+        value.style.color=[
+            'white',
+            'cyan',
+            'magenta',
+            'yellow',
+            'blue',
+            'red',
+            'green'
+        ][bPlayer];
+        value.style.transform="rotate("+(-mapPositions[bFrom].borders[bTo][2])+"deg)";
+    }
+    return border
 }
