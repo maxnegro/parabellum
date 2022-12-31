@@ -55,17 +55,17 @@ function (dojo, declare) {
             console.log( "Starting game setup" );
 
             resetZoom();
-            addToken(3,1,12,1,1);
-            addToken(2,2,12,1,2);
-            addToken(4,1,12,1,1);
-            addToken(4,2,12,1,2);
-            addToken(4,3,12,1,3);
+            addToken(3,1,12,2,1);
+            addToken(2,2,12,2,2);
+            addToken(4,1,12,2,1);
+            addToken(4,2,12,2,2);
+            addToken(4,3,12,2,3);
 
-            addToken(3,1,12,3,1);
-            addToken(2,2,12,3,2);
-            addToken(4,1,12,3,1);
-            addToken(4,2,12,3,2);
-            addToken(4,3,12,3,3);
+            addToken(3,1,12,13,1);
+            addToken(2,2,12,13,2);
+            addToken(4,1,12,13,1);
+            addToken(4,2,12,13,2);
+            addToken(4,3,12,13,3);
 
             addBorder(0,3,-1,1);
             addBorder(2,12,1,2);
