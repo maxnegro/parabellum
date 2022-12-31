@@ -41,3 +41,12 @@ CREATE TABLE IF NOT EXISTS `provincia` (
   `card_location_arg` int(11) NOT NULL,
   PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `troop` (
+ `troop_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `troop_type` int(10) NOT NULL,
+ `troop_location_id` int(11),
+ `troop_player_id` int(11),
+ `troop_count` int(10) DEFAULT 0,
+ PRIMARY KEY (`troop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

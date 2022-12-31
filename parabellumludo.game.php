@@ -18,7 +18,7 @@
 
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
-
+require_once ('modules/parabellum_troops.php');
 
 class ParaBellumLudo extends Table
 {
@@ -43,7 +43,9 @@ class ParaBellumLudo extends Table
         ) );        
 
         $this->provinceDeck = self::getNew( "module.common.deck" );
-	    $this->provinceDeck->init( "provincia" );        
+	    $this->provinceDeck->init( "provincia" );   
+        $this->troops = new pblTroops;
+        $this->troops->init('troop');
 
 	}
 	
@@ -283,8 +285,12 @@ class ParaBellumLudo extends Table
 
     function pblRecruitment() {
         $this->incGameStateValue('consular_year', 1);
+
+        foreach($this->provinceDeck->getCardsInLocation('hand') as $card) {
+            $this->troops->addTroop($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
+        }
+
         self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array('consular_year' => $this->getGameStateValue('consular_year')));
-//        self::notifyAllPlayers("newYear", "1", array()); // TODO save in db and increment after barbarians turn
 
         $this->gamestate->nextState('');
     }
