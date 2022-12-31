@@ -407,8 +407,14 @@ function RemovePanZoom() {
     document.getElementById("board").style.overflow = "inherit";
 };
 
-function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
-    var token=dojo.place('<div class="token"/>', "map-tokens");
+// Tokens
+
+function clearMap() {
+    var token=dojo.empty("map-tokens");
+};
+
+function addToken(tId,tClass,tPlayer,tValue,tProv,tSlot) {
+    var token=dojo.place('<div id="'+tId+'" class="token"/>', "map-tokens");
     var tX;
     var tY;
     if (tClass==0) {
@@ -477,3 +483,4 @@ function addBorder(bPlayer,bValue,bFrom,bTo) {
     }
     return border
 }
+

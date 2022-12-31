@@ -54,27 +54,28 @@ function (dojo, declare) {
         {
             console.log( "Starting game setup" );
 
+            // Setting up map
             resetZoom();
-            addToken(3,this.getActivePlayerId(),12,2,1);
-            addToken(2,this.getActivePlayerId(),12,2,2);
-            addToken(4,this.getActivePlayerId(),12,2,1);
-            addToken(4,this.getActivePlayerId(),12,2,2);
-            addToken(4,this.getActivePlayerId(),12,2,3);
+            clearMap();
+            for (var troops in gamedatas.troops) {
+                addToken(
+                    troops.troop_id,
+                    troops.troop_type,
+                    troops.troop_player_id,
+                    troops.troop_count,
+                    troops.troop_location_id,
+                    1
+                );
+            };
 
-            addToken(3,this.getActivePlayerId(),12,13,1);
-            addToken(2,this.getActivePlayerId(),12,13,2);
-            addToken(4,this.getActivePlayerId(),12,13,1);
-            addToken(4,this.getActivePlayerId(),12,13,2);
-            addToken(4,this.getActivePlayerId(),12,13,3);
 
-            addBorder("",3,-1,1);
-            addBorder(this.getActivePlayerId(),12,1,2);
-            addBorder(this.getActivePlayerId(),12,2,3);
+            //~ addBorder("",3,-1,1);
+            //~ addBorder(this.getActivePlayerId(),12,1,2);
+            //~ addBorder(this.getActivePlayerId(),12,2,3);
 
 
             // Setting up player boards
-            for( var player_id in gamedatas.players )
-            {
+            for( var player_id in gamedatas.players ) {
                 var player = gamedatas.players[player_id];
 
                 // TODO: Setting up players boards if needed
