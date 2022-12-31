@@ -54,6 +54,13 @@ function (dojo, declare) {
         {
             console.log( "Starting game setup" );
 
+            // Setting up player boards
+            for( var player_id in gamedatas.players ) {
+                var player = gamedatas.players[player_id];
+
+                // TODO: Setting up players boards if needed
+            }
+
             // Setting up map
             resetZoom();
             clearMap();
@@ -68,18 +75,11 @@ function (dojo, declare) {
                 );
             };
 
-
             //~ addBorder("",3,-1,1);
             //~ addBorder(this.getActivePlayerId(),12,1,2);
             //~ addBorder(this.getActivePlayerId(),12,2,3);
 
 
-            // Setting up player boards
-            for( var player_id in gamedatas.players ) {
-                var player = gamedatas.players[player_id];
-
-                // TODO: Setting up players boards if needed
-            }
 
             // TODO: Set up your game interface here, according to "gamedatas"
 
