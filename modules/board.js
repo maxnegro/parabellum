@@ -293,6 +293,23 @@ var mapPositions = {
   },
 };
 
+function player2color(aPlayer) {
+console.log(aPlayer);
+    if (aPlayer=='') {
+        return 0
+    }
+    var playerInfo = root.gamedatas.players[aPlayer];
+    var c = playerInfo.color;
+    return {
+        "ff0000"    : 1,
+        "008000"   : 2,
+        "0000ff"    : 3,
+        "ffa500"    : 4,
+        "982fff"    : 6,
+        "72c3b1"   : 5,
+    }[c]
+}
+
 function InitBoard(aRoot) {
     root=aRoot;
     var mDiv=document.getElementById("map");
@@ -400,10 +417,10 @@ function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
     } else if (tClass==1) {
         tX=2;
         tY=132;
-        tPlayer=0;
+        tPlayer='';
     } else {
         tX=2+(tClass-1)*88;
-        tY=46+(tPlayer-1)*86;
+        tY=46+(player2color(tPlayer)-1)*86;
     }
     token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
     var mX;
@@ -430,7 +447,7 @@ function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
             'blue',
             'red',
             'green'
-        ][tPlayer];
+        ][player2color(tPlayer)];
     }
     return token
 }
@@ -438,7 +455,7 @@ function addToken(tClass,tPlayer,tValue,tProv,tSlot) {
 function addBorder(bPlayer,bValue,bFrom,bTo) {
     var border=dojo.place('<div class="borderToken"/>', "map-tokens");
     var bX=354;
-    var bY=46+(bPlayer)*61;
+    var bY=46+(player2color(bPlayer))*61;
     border.style.backgroundPosition="-"+bX+"px -"+bY+"px";
     var mX=mapPositions[bFrom].borders[bTo][0];
     var mY=mapPositions[bFrom].borders[bTo][1];
@@ -455,7 +472,7 @@ function addBorder(bPlayer,bValue,bFrom,bTo) {
             'blue',
             'red',
             'green'
-        ][bPlayer];
+        ][player2color(bPlayer)];
         value.style.transform="rotate("+(-mapPositions[bFrom].borders[bTo][2])+"deg)";
     }
     return border
