@@ -290,7 +290,10 @@ class ParaBellumLudo extends Table
             $this->troops->addTroop($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
         }
 
-        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array('consular_year' => $this->getGameStateValue('consular_year')));
+        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array(
+            'consular_year' => $this->getGameStateValue('consular_year'),
+            // 'troops' => $this->troops->getAllData(),
+        ));
 
         $this->gamestate->nextState('');
     }
