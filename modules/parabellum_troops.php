@@ -72,4 +72,15 @@ class pblTroops extends APP_GameClass {
          return null;
       }
    }
+
+   function getAllData() {
+      $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` ORDER BY troop_location_id", $this->table);
+      // $dbres = self::DbQuery($sql);
+      // $result = array();
+      // while ($row = mysql_fetch_assoc($dbres)) {
+      //    $result[] = $row;
+      // }
+      // return $result;
+      return self::getCollectionFromDb($sql);
+   }
 }

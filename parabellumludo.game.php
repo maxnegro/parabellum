@@ -164,6 +164,8 @@ class ParaBellumLudo extends Table
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
   
         $result['consular_year'] = $this->getGameStateValue('consular_year');
+        $result['troops'] = $this->troops->getAllData();
+
         return $result;
     }
 
@@ -292,7 +294,7 @@ class ParaBellumLudo extends Table
 
         self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year'), array(
             'consular_year' => $this->getGameStateValue('consular_year'),
-            // 'troops' => $this->troops->getAllData(),
+            'troops' => $this->troops->getAllData(),
         ));
 
         $this->gamestate->nextState('');

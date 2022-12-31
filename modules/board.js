@@ -294,7 +294,6 @@ var mapPositions = {
 };
 
 function player2color(aPlayer) {
-console.log(aPlayer);
     if (aPlayer=='') {
         return 0
     }

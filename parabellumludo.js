@@ -64,7 +64,8 @@ function (dojo, declare) {
             // Setting up map
             resetZoom();
             clearMap();
-            for (var troops in gamedatas.troops) {
+            for (var troopsIx in gamedatas.troops) {
+                var troops = gamedatas.troops[troopsIx];
                 addToken(
                     troops.troop_id,
                     troops.troop_type,
