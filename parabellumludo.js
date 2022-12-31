@@ -55,6 +55,18 @@ function (dojo, declare) {
             console.log( "Starting game setup" );
 
             resetZoom();
+            addToken(3,1,12,1,1);
+            addToken(2,2,12,1,2);
+            addToken(4,1,12,1,1);
+            addToken(4,2,12,1,2);
+            addToken(4,3,12,1,3);
+
+            addToken(3,1,12,3,1);
+            addToken(2,2,12,3,2);
+            addToken(4,1,12,3,1);
+            addToken(4,2,12,3,2);
+            addToken(4,3,12,3,3);
+
 
             // Setting up player boards
             for( var player_id in gamedatas.players )
@@ -152,21 +164,6 @@ function (dojo, declare) {
                     case 'playerTroopsMovement':
                     case 'playerCombat':
                         this.addActionButton( 'button_pass', _('Next phase'), 'onPassToNextPhase');
-
-
-
-
-
-
-            addToken(3,1,12,1,1);
-            addToken(2,2,12,1,2);
-            addToken(4,1,12,1,1);
-            addToken(4,2,12,1,2);
-            addToken(4,3,12,1,3);
-
-
-
-
 
                         break;
 /*
