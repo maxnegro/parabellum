@@ -19,6 +19,7 @@ define([
     "dojo","dojo/_base/declare",
     "ebg/core/gamegui",
     "ebg/counter",
+    "ebg/zone",
     g_gamethemeurl + "modules/panzoom.js",
     g_gamethemeurl + "modules/board.js",
 ],
@@ -27,11 +28,11 @@ function (dojo, declare) {
         constructor: function(){
             console.log('parabellumludo constructor');
 
+
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
-
 
             InitBoard(this);
 

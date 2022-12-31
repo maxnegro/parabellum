@@ -356,6 +356,28 @@ function InitBoard(aRoot) {
     zbutton = document.getElementById("button-zoom-center");
     zbutton.addEventListener("click", (e) => resetZoom());
     zbutton.addEventListener("touchstart", (e) => resetZoom());
+
+    // init troop zones
+    root.troopZones={};
+    for (var id in mapPositions) {
+        if (mapPositions[id].troops != null) {
+            root.troopZones[id]=new ebg.zone();
+            var z=dojo.place('<div id="troopZone-'+id+'"/>', "map-tokens");
+            z.style.left=mapPositions[id].troops[0][0]+"px";
+            z.style.top=mapPositions[id].troops[0][1]+"px";
+            z.style.width="84px";
+            z.style.height="84px";
+            root.troopZones[id].create(root, "troopZone-"+id 84, 84);
+            root.troopZones[id].setPattern('custom');
+            root.troopZones[id].itemIdToCoords=function(i,control_width) {
+                if (i==0) {
+                    return{x:mapPositions[id].troops[0][0], y:mapPositions[id].troops[0][1], w:84, h:84}
+                } else {
+                    return{x:mapPositions[id].troops[1][0], y:mapPositions[id].troops[1][1], w:84, h:84}
+                }
+            }
+        }
+    }
 }
 
 var zoomInterval;
@@ -412,8 +434,11 @@ function clearMap() {
     var token=dojo.empty("map-tokens");
 };
 
-function addToken(tId,tClass,tPlayer,tValue,tProv,tSlot) {
+function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
     var token=dojo.place('<div id="'+tId+'" class="token"/>', "map-tokens");
+
+root.troopZones[tProv].placeInZone(tId,tWeight);
+
     var tX;
     var tY;
     if (tClass==0) {
@@ -428,20 +453,20 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tSlot) {
         tY=46+(player2color(tPlayer)-1)*86;
     }
     token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
-    var mX;
-    var mY;
-    if (tClass==0) {
-        mX=mapPositions[tProv].units[0][0];
-        mY=mapPositions[tProv].units[0][1];
-    } else if (tClass==4) {
-        mX=mapPositions[tProv].ships[tSlot-1][0];
-        mY=mapPositions[tProv].ships[tSlot-1][1];
-    } else {
-        mX=mapPositions[tProv].units[tSlot-1][0];
-        mY=mapPositions[tProv].units[tSlot-1][1];
-    }
-    token.style.left=mX+"px";
-    token.style.top=mY+"px";
+    //~ var mX;
+    //~ var mY;
+    //~ if (tClass==0) {
+        //~ mX=mapPositions[tProv].units[0][0];
+        //~ mY=mapPositions[tProv].units[0][1];
+    //~ } else if (tClass==4) {
+        //~ mX=mapPositions[tProv].ships[tSlot-1][0];
+        //~ mY=mapPositions[tProv].ships[tSlot-1][1];
+    //~ } else {
+        //~ mX=mapPositions[tProv].units[tSlot-1][0];
+        //~ mY=mapPositions[tProv].units[tSlot-1][1];
+    //~ }
+    //~ token.style.left=mX+"px";
+    //~ token.style.top=mY+"px";
     if (tClass>0 && tValue!=null) {
         var value=dojo.place('<div class="token-value">'+tValue+'</div>', token);
         value.style.color=[
