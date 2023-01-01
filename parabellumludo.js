@@ -87,6 +87,19 @@ function (dojo, declare) {
             this.current_year = new ebg.counter();
             this.current_year.create('consular_year');
             this.current_year.toValue(gamedatas.consular_year);
+
+            for ( var province_id in gamedatas.province_deck ) {
+                var province =  gamedatas.province_deck[province_id];
+                console.log(province);
+                console.log('province-card-container_'+province['location_arg']);
+                dojo.place(this.format_block( 'jstpl_province_card', {
+                    province_card_id: province['type_arg'],
+                    province_card_name: gamedatas.provinces[province['type_arg']]['name'],
+                    province_card_support_label: _("Cohors/year"),
+                    province_card_support: gamedatas.provinces[province['type_arg']]['support']
+             } ) , 'province-card-container-'+province['location_arg']);
+            }
+
             // Setup game notifications to handle (see "setupNotifications" method below)
             this.setupNotifications();
 

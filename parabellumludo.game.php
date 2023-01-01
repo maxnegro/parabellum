@@ -165,6 +165,8 @@ class ParaBellumLudo extends Table
   
         $result['consular_year'] = $this->getGameStateValue('consular_year');
         $result['troops'] = $this->troops->getAllData();
+        $result['provinces'] = $this->provinces;              // Province card static data
+        $result['province_deck'] = $this->provinceDeck->getCardsInLocation('hand', null, 'location_arg');
 
         return $result;
     }

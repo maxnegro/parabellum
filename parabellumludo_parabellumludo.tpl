@@ -43,14 +43,7 @@
 <!-- BEGIN provinces -->
   <div id="{PLAYER_ID}_provinces" class="whiteblock">
    <h3><span style="color: #{PLAYER_COLOR};">{PLAYER_NAME}</span>: {PROVINCES}</h3>
-   <div class="province_card_container">
-   <!-- BEGIN province_cards -->
-     <div class="province_card_background">
-       <h4 class="province_card_name">{PROVINCE_NAME}<h4>
-       {PROVINCE_SUPPORT_LABEL}: {PROVINCE_SUPPORT}
-     </div>
-   <!-- END province_cards -->
-   </div>
+   <div class="province_card_container" id="province-card-container-{PLAYER_ID}"></div>
   </div>
 <!-- END provinces -->
 
@@ -66,6 +59,8 @@
 <script type="text/javascript">
 
 // Javascript HTML templates
+
+var jstpl_province_card='<div id="province-card-${province_card_id}" class="province_card_background"><h4 class="province_card_name">${province_card_name}</h4><div class="province_card_inside">${province_card_support_label}: ${province_card_support}</div></div>';
 
 /*
 // Example:
