@@ -455,6 +455,7 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
         tY=46+(player2color(tPlayer)-1)*86;
     }
     token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
+    dojo.empty("troops-"+tId);
     if (tClass>0 && tValue!=null) {
         var value=dojo.place('<div class="token-value">'+tValue+'</div>', token);
         value.style.color=[
@@ -467,7 +468,7 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
             'green'
         ][player2color(tPlayer)];
     }
-    root.troopZones[tProv].placeInZone(tId,tWeight);
+    root.troopZones[tProv].placeInZone("troops-"+tId,tWeight);
     return token
 }
 
