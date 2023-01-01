@@ -312,6 +312,7 @@ function (dojo, declare) {
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             //
             dojo.subscribe('newYear', this, 'notif_newYear');
+            dojo.subscribe('removeDesolation', this, 'notif_removeDesolation');
             this.notifqueue.setSynchronous('newYear', 3000);
         },
 
@@ -333,8 +334,10 @@ function (dojo, declare) {
                     1
                 );
             };
-
-
+        },
+        notif_removeDesolation: function( notif ) {
+            console.log('Removing '+notif.args.token_id+' from '+notif.args.location_id);
+            removeToken( notif.args.location_id, notif.args.token_id);
         },
         /*
         Example:

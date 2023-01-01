@@ -472,6 +472,11 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
     return token
 }
 
+function removeToken(tProv, tId) {
+    root.troopZones[tProv].removeFromZone( "troops-"+tId, true, null);
+    return true;
+}
+
 function addBorder(bPlayer,bValue,bFrom,bTo) {
     var border=dojo.place('<div class="borderToken"/>', "map-tokens");
     var bX=354;

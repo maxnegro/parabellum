@@ -296,7 +296,7 @@ class ParaBellumLudo extends Table
         foreach($this->provinceDeck->getCardsInLocation('hand') as $card) {
             $this->troops->addTroop($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
         }
-        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year. Adding cohors and desolated lands'), array(
+        self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year. Recruiting new cohors.'), array(
             'consular_year' => $this->getGameStateValue('consular_year'),
             'troops' => $this->troops->getAllData(),
         ));
@@ -315,6 +315,15 @@ class ParaBellumLudo extends Table
     }
 
     function pblBarbarianInvasions() {
+        // At the end of the barbarian invasions, desolated lands are deleted
+        foreach ($this->troops->getDesolations() as $province_id => $province ) {
+            $this->troops->removeDesolation($province['troop_location_id']);
+            self::notifyAllPlayers('removeDesolation', clienttranslate('Remove desolation from province ${location_name}.'), array(
+                'location_id' => $province['troop_location_id'],
+                'location_name' => $this->provinces[$province['troop_location_id']]['name'],
+                'token_id' => $province['troop_id'],
+            ));
+        }
         $this->gamestate->nextState('newYear');
     }
  

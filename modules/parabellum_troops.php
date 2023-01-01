@@ -71,6 +71,16 @@ class pblTroops extends APP_GameClass {
       return self::DbQuery($sql);
    }
 
+   function getDesolations() {
+      $sql = sprintf("SELECT `troop_id`, `troop_type`, `troop_location_id`, `troop_player_id`, `troop_count` FROM `%s` WHERE `troop_type` = 0", $this->table);
+      return self::getCollectionFromDb($sql);
+   }
+
+   function removeDesolation($location_id) {
+      $sql = sprintf("DELETE FROM `%s` WHERE `troop_type` = 0 AND `troop_location_id` = %d", $this->table, $location_id);
+      return self::DbQuery($sql);
+   }
+
    function getTroop($player_id, $location_id) {
       $sql = sprintf("SELECT troop_id, troop_type, troop_count FROM `%s` WHERE `troop_player_id` = %d AND `troop_location_id` = %d", 
          $this->table, $player_id, $location_id
@@ -88,7 +98,7 @@ class pblTroops extends APP_GameClass {
       $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` WHERE troop_location_id = %d", 
          $this->table, $location_id,
       );
-      return self::getCollectionFromDb($sql);     
+      return self::getCollectionFromDb($sql);
    }
 
    function getAllData() {
