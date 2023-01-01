@@ -436,7 +436,11 @@ function clearMap() {
 };
 
 function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
-    var token=dojo.place('<div id="'+tId+'" class="token"/>', "map-tokens");
+
+    var token=dojo.byId("troops-"+tId);
+    if (!token) {
+        token=dojo.place('<div id="troops-'+tId+'" class="token"/>', "map-tokens");
+    }
     var tX;
     var tY;
     if (tClass==0) {
