@@ -134,7 +134,10 @@ class ParaBellumLudo extends Table
                 'provinceList' => join(', ', $provinceList),
             ));
         }  
-   
+        foreach($this->provinceDeck->getCardsInLocation('deck') as $card) {
+            $this->troops->addDesolation($card['type_arg']);
+        }
+
         // Activate first player (which is in general a good idea :) )
         $this->activeNextPlayer();
 
@@ -292,9 +295,6 @@ class ParaBellumLudo extends Table
 
         foreach($this->provinceDeck->getCardsInLocation('hand') as $card) {
             $this->troops->addTroop($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
-        }
-        foreach($this->provinceDeck->getCardsInLocation('deck') as $card) {
-            $this->troops->addDesolation($card['type_arg']);
         }
         self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year. Adding cohors and desolated lands'), array(
             'consular_year' => $this->getGameStateValue('consular_year'),
