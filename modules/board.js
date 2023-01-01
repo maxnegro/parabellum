@@ -360,20 +360,23 @@ function InitBoard(aRoot) {
     // init troop zones
     root.troopZones={};
     for (var id in mapPositions) {
-        if (mapPositions[id].troops != null) {
+        console.log(id);
+        if (mapPositions[id].units != null) {
+            console.log(mapPositions[id].units);
             root.troopZones[id]=new ebg.zone();
             var z=dojo.place('<div id="troopZone-'+id+'"/>', "map-tokens");
-            z.style.left=mapPositions[id].troops[0][0]+"px";
-            z.style.top=mapPositions[id].troops[0][1]+"px";
+            z.style.left=mapPositions[id].units[0][0]+"px";
+            z.style.top=mapPositions[id].units[0][1]+"px";
             z.style.width="84px";
             z.style.height="84px";
-            root.troopZones[id].create(root, "troopZone-"+id 84, 84);
+            z.style.position="absolute";
+            root.troopZones[id].create(root, "troopZone-"+id, 84, 84);
             root.troopZones[id].setPattern('custom');
             root.troopZones[id].itemIdToCoords=function(i,control_width) {
                 if (i==0) {
-                    return{x:mapPositions[id].troops[0][0], y:mapPositions[id].troops[0][1], w:84, h:84}
+                    return{x:0, y:0, w:84, h:84}
                 } else {
-                    return{x:mapPositions[id].troops[1][0], y:mapPositions[id].troops[1][1], w:84, h:84}
+                    return{x:60, y:60, w:84, h:84}
                 }
             }
         }
@@ -437,7 +440,9 @@ function clearMap() {
 function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
     var token=dojo.place('<div id="'+tId+'" class="token"/>', "map-tokens");
 
-root.troopZones[tProv].placeInZone(tId,tWeight);
+    console.log(tProv);
+    console.log(root.troopZones);
+    console.log(root.troopZones[tProv]);
 
     var tX;
     var tY;
@@ -479,6 +484,7 @@ root.troopZones[tProv].placeInZone(tId,tWeight);
             'green'
         ][player2color(tPlayer)];
     }
+    root.troopZones[tProv].placeInZone(tId,tWeight);
     return token
 }
 
