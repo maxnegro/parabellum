@@ -34,8 +34,8 @@ class pblTroops extends APP_GameClass {
       // $this->g_index = array ();
    }
 
-   // MUST be called before any other method if db table is not called 'token'
-      function init($table) {
+   // MUST be called before any other method if db table is not called 'troop'
+   function init($table) {
       $this->table = $table;
    }
 
@@ -52,12 +52,23 @@ class pblTroops extends APP_GameClass {
             $result['troop_id']
          );
       } else {
-         $sql = sprintf("INSERT INTO `%s`(`troop_type`, `troop_location_id`, `troop_player_id`, `troop_count`) VALUES (%d,%d,%d,%d)",
+         $sql = sprintf("INSERT INTO `%s` (`troop_type`, `troop_location_id`, `troop_player_id`, `troop_count`) VALUES (%d,%d,%d,%d)",
             $this->table,
             2, $location_id, $player_id, $nbr
          );
       }
-      $dbres = self::DbQuery($sql);
+      return self::DbQuery($sql);
+   }
+
+   function addDesolation($location_id) {
+      if (!empty($this->getTroopsByLocation($location_id))) {
+         return false;
+      }
+      $sql = sprintf("INSERT INTO `%s` (`troop_type`, `troop_location_id`, `troop_player_id`, `troop_count`) VALUES (%d,%d,NULL,1)",
+         $this->table,
+         0, $location_id
+      );
+      return self::DbQuery($sql);
    }
 
    function getTroop($player_id, $location_id) {
@@ -73,14 +84,15 @@ class pblTroops extends APP_GameClass {
       }
    }
 
+   function getTroopsByLocation($location_id) {
+      $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` WHERE troop_location_id = %d", 
+         $this->table, $location_id,
+      );
+      return self::getCollectionFromDb($sql);     
+   }
+
    function getAllData() {
       $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` ORDER BY troop_location_id", $this->table);
-      // $dbres = self::DbQuery($sql);
-      // $result = array();
-      // while ($row = mysql_fetch_assoc($dbres)) {
-      //    $result[] = $row;
-      // }
-      // return $result;
       return self::getCollectionFromDb($sql);
    }
 }
