@@ -64,7 +64,6 @@ function (dojo, declare) {
 
             // Setting up map
             resetZoom();
-            // clearMap();
             for (var troopsIx in gamedatas.troops) {
                 var troops = gamedatas.troops[troopsIx];
                 addToken(
@@ -309,6 +308,20 @@ function (dojo, declare) {
             console.log('New consular year');
             console.log(notif);
             this.current_year.toValue(notif.args.consular_year);
+
+            for (var troopsIx in notif.args.troops) {
+                var troops = notif.args.troops[troopsIx];
+                addToken(
+                    troops.troop_id,
+                    troops.troop_type,
+                    troops.troop_player_id,
+                    troops.troop_count,
+                    troops.troop_location_id,
+                    1
+                );
+            };
+
+
         },
         /*
         Example:

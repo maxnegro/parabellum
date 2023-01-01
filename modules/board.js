@@ -360,9 +360,7 @@ function InitBoard(aRoot) {
     // init troop zones
     root.troopZones={};
     for (var id in mapPositions) {
-        console.log(id);
         if (mapPositions[id].units != null) {
-            console.log(mapPositions[id].units);
             root.troopZones[id]=new ebg.zone();
             var z=dojo.place('<div id="troopZone-'+id+'"/>', "map-tokens");
             z.style.left=mapPositions[id].units[0][0]+"px";
@@ -439,11 +437,6 @@ function clearMap() {
 
 function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
     var token=dojo.place('<div id="'+tId+'" class="token"/>', "map-tokens");
-
-    console.log(tProv);
-    console.log(root.troopZones);
-    console.log(root.troopZones[tProv]);
-
     var tX;
     var tY;
     if (tClass==0) {
@@ -458,20 +451,6 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
         tY=46+(player2color(tPlayer)-1)*86;
     }
     token.style.backgroundPosition="-"+tX+"px -"+tY+"px";
-    //~ var mX;
-    //~ var mY;
-    //~ if (tClass==0) {
-        //~ mX=mapPositions[tProv].units[0][0];
-        //~ mY=mapPositions[tProv].units[0][1];
-    //~ } else if (tClass==4) {
-        //~ mX=mapPositions[tProv].ships[tSlot-1][0];
-        //~ mY=mapPositions[tProv].ships[tSlot-1][1];
-    //~ } else {
-        //~ mX=mapPositions[tProv].units[tSlot-1][0];
-        //~ mY=mapPositions[tProv].units[tSlot-1][1];
-    //~ }
-    //~ token.style.left=mX+"px";
-    //~ token.style.top=mY+"px";
     if (tClass>0 && tValue!=null) {
         var value=dojo.place('<div class="token-value">'+tValue+'</div>', token);
         value.style.color=[
