@@ -313,6 +313,9 @@ function (dojo, declare) {
             //
             dojo.subscribe('newYear', this, 'notif_newYear');
             dojo.subscribe('removeDesolation', this, 'notif_removeDesolation');
+            dojo.subscribe('removeFromHand', this, 'notif_removeFromHand');
+            dojo.subscribe('barbarianAttack', this, 'notif_barbarianAttack');
+            dojo.subscribe('battle', this, 'notif_battle');
             this.notifqueue.setSynchronous('newYear', 3000);
         },
 
@@ -338,6 +341,61 @@ function (dojo, declare) {
         notif_removeDesolation: function( notif ) {
             console.log('Removing '+notif.args.token_id+' from '+notif.args.location_id);
             removeToken( notif.args.location_id, notif.args.token_id);
+        },
+        notif_addDesolation: function ( notif ) {
+            console.log('Adding desolation in '+notif.args.troops.troop_location_id);
+            addToken(
+                notif.args.troops.troop_id,
+                notif.args.troops.troop_type,
+                notif.args.troops.troop_player_id,
+                notif.args.troops.troop_count,
+                notif.args.troops.troop_location_id,
+                1
+            );
+        },
+        notif_removeFromHand: function ( notif ) {
+            console.log('Removing '+notif.args.location_id+' from '+notif.args.player_id);
+            dojo.destroy('province-card-'+notif.args.location_id);
+        },
+        notif_barbarianAttack: function ( notif ) {
+            console.log('Barbarian attack from '+notif.args.barbarian_province+' to '+notif.args.target_province);
+            addToken(
+                notif.args.barbarian_troops.troop_id,
+                notif.args.barbarian_troops.troop_type,
+                notif.args.barbarian_troops.troop_player_id,
+                notif.args.barbarian_troops.troop_count,
+                notif.args.barbarian_troops.troop_location_id,
+                1
+            );
+        },
+        notif_battle: function ( notif ) {
+            console.log('Updating table after battle in '+notif.args.location_name);
+            console.log(notif);
+
+            if (notif.args.atkTroops.troop_count > 0) {
+                addToken(
+                    notif.args.atkTroops.troop_id,
+                    notif.args.atkTroops.troop_type,
+                    notif.args.atkTroops.troop_player_id,
+                    notif.args.atkTroops.troop_count,
+                    notif.args.atkTroops.troop_location_id,
+                    1
+                );
+            } else {
+                removeToken(notif.args.atkTroops.troop_location_id, notif.args.atkTroops.troop_id);
+            }
+            if (notif.args.defTroops.troop_count > 0) {
+                addToken(
+                    notif.args.defTroops.troop_id,
+                    notif.args.defTroops.troop_type,
+                    notif.args.defTroops.troop_player_id,
+                    notif.args.defTroops.troop_count,
+                    notif.args.defTroops.troop_location_id,
+                    1
+                );
+            } else {
+                removeToken(notif.args.defTroops.troop_location_id, notif.args.defTroops.troop_id);
+            }
         },
         /*
         Example:

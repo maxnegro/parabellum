@@ -473,6 +473,7 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
 }
 
 function removeToken(tProv, tId) {
+    console.log('Removing token '+tId+' from '+tProv);
     root.troopZones[tProv].removeFromZone( "troops-"+tId, true, null);
     return true;
 }

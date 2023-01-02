@@ -28,6 +28,7 @@
 class pblTroops extends APP_GameClass {
    var $table;
 
+   const DESOLATION = 0;
    const BARBARIANS = 1;
    const EAGLE      = 2;
    const FORT       = 3;
@@ -126,7 +127,7 @@ class pblTroops extends APP_GameClass {
    }
 
    function getTroop($player_id, $location_id) {
-      $sql = sprintf("SELECT troop_id, troop_type, troop_count FROM `%s` WHERE `troop_player_id` = %d AND `troop_location_id` = %d", 
+      $sql = sprintf("SELECT troop_id, troop_type, troop_count, troop_player_id, troop_location_id FROM `%s` WHERE `troop_player_id` = %d AND `troop_location_id` = %d", 
          $this->table, $player_id, $location_id
       );
       $dbres = self::DbQuery($sql);

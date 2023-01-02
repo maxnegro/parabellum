@@ -294,7 +294,9 @@ class ParaBellumLudo extends Table
         $this->incGameStateValue('consular_year', 1);
 
         foreach($this->provinceDeck->getCardsInLocation('hand') as $card) {
-            $this->troops->addTroops($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
+            if (count($this->troops->getTroopsByLocation($card['type_arg'])) <= 1) {
+                $this->troops->addTroops($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
+            }
         }
         self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year. Recruiting new cohors.'), array(
             'consular_year' => $this->getGameStateValue('consular_year'),
@@ -331,7 +333,7 @@ class ParaBellumLudo extends Table
             if (count($this->troops->getTroopsByLocation($barbarian['troop_location_id'])) == 1) {
                 $attackProvinceList = array();
                 $attackDefenders = PHP_INT_MAX;
-                foreach ($this->provinces[barbarian['troop_location_id']]['borders'] as $candidateProvince) {
+                foreach ($this->provinces[$barbarian['troop_location_id']]['landBorders'] as $candidateProvince) {
                     $troopsInProvince = $this->troops->getTroopsByLocation($candidateProvince);
                     if (count($troopsInProvince) > 1) {
                         // destination is contended, barbarians cannot invade
@@ -340,7 +342,11 @@ class ParaBellumLudo extends Table
                         // check for confining province less defended
                         foreach ($troopsInProvince as $candidateDefenders) {
                             // This should cycle at most one time
-                            if ($candidateDefenders['troop_count'] <= $attackDefenders) {
+                            if (
+                                ($candidateDefenders['troop_count'] <= $attackDefenders) && 
+                                ($candidateDefenders['troop_type'] != pblTroops::DESOLATION) &&
+                                ($candidateDefenders['troop_type'] != pblTroops::BARBARIANS)
+                                ) {
                                 if ($candidateDefenders['troop_count'] < $attackDefenders) { $attackProvinceList = array(); }
                                 $attackProvinceList[] = $candidateProvince;
                                 $attackDefenders = $candidateDefenders['troop_count'];
@@ -351,15 +357,21 @@ class ParaBellumLudo extends Table
                 if (count($attackProvinceList) > 0) {
                     $attackProvince = $attackProvinceList[bga_rand(0, count($attackProvinceList) - 1)];
                     $this->troops->moveTroopsById($barbarian['troop_id'], $attackProvince);
-                    // $this->troops->removeTroops(-1, $barbarian['troop_location_id'], $barbarian['troop_count']);
-                    // $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
-                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops} tribes.'), array(
-                        'barbarian_province' => $this->provinces[$barbarian['troop_location_id']]['name'],
+                    $previousProvince=$barbarian['troop_location_id'];
+                    $barbarian['troop_location_id'] = $attackProvince;
+                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops_count} tribes.'), array(
+                        'barbarian_province' => $this->provinces[$previousProvince]['name'],
                         'target_province' => $this->provinces[$attackProvince]['name'],
                         'target_province_id' => $attackProvince,
-                        'barbarian_troops' => $barbarian['troop_count'],
-                        'token_id' => $barbarian['troop_id'],
+                        'barbarian_troops_count' => $barbarian['troop_count'],
+                        'barbarian_troops' => $barbarian,
                     ));
+                    $this->troops->addDesolation($previousProvince);
+                    foreach ($this->troops->getDesolations() as $desolation) {
+                        if ($desolation['troop_location_id'] == $previousProvince) {
+                            self::notifyAllPlayers('addDesolation', '', array( 'troops' => $desolation));
+                        }
+                    }
                 }
             }
         }
@@ -389,7 +401,11 @@ class ParaBellumLudo extends Table
                         // check for confining province less defended
                         foreach ($troopsInProvince as $candidateDefenders) {
                             // This should cycle at most one time
-                            if ($candidateDefenders['troop_count'] <= $attackDefenders) {
+                            if (
+                                ($candidateDefenders['troop_count'] <= $attackDefenders) && 
+                                ($candidateDefenders['troop_type'] != pblTroops::DESOLATION) &&
+                                ($candidateDefenders['troop_type'] != pblTroops::BARBARIANS)
+                                ) {
                                 if ($candidateDefenders['troop_count'] < $attackDefenders) { $attackProvinceList = array(); }
                                 $attackProvinceList[] = $candidateProvince;
                                 $attackDefenders = $candidateDefenders['troop_count'];
@@ -400,12 +416,13 @@ class ParaBellumLudo extends Table
                 if (count($attackProvinceList) > 0) {
                     $attackProvince = $attackProvinceList[bga_rand(0, count($attackProvinceList) - 1)];
                     $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
-                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops} tribes.'), array(
+                    $barbarian_troops=$this->troops->getTroop(-1, $attackProvince);
+                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops_count} tribes.'), array(
                         'barbarian_province' => $barbarian['name'],
                         'target_province' => $this->provinces[$attackProvince]['name'],
                         'target_province_id' => $attackProvince,
-                        'barbarian_troops' => 5,
-                        'token_id' => null,
+                        'barbarian_troops_count' => $barbarian_troops['troop_count'],
+                        'barbarian_troops' => $barbarian_troops,
                     ));
                 }
                 break;
@@ -456,6 +473,16 @@ class ParaBellumLudo extends Table
                     // Outstanding victory
                     $msg .= 'Attack in ${location_name} was an outstanding victory.';
                     $defTroops['troop_count'] = 0;
+                    // Remove province card from opponent deck
+                    foreach ($this->provinceDeck->getPlayerHand($defTroops['troop_player_id']) as $card) {
+                        if ($card['type_arg'] == $defTroops['troop_location_id']) {
+                            $this->provinceDeck->moveCard($card['id'], 'deck');
+                            self::notifyAllPlayers('removeFromHand', '', array(
+                                'player_id' => $defTroops['troop_player_id'],
+                                'location_id' => $defTroops['troop_location_id'],
+                            ));
+                        }
+                    }
                 }
                 $this->troops->updateTroops($atkTroops['troop_player_id'], $atkTroops['troop_location_id'], $atkTroops['troop_count']);
                 $this->troops->updateTroops($defTroops['troop_player_id'], $defTroops['troop_location_id'], $defTroops['troop_count']);
