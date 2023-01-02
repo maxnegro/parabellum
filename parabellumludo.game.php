@@ -294,7 +294,7 @@ class ParaBellumLudo extends Table
         $this->incGameStateValue('consular_year', 1);
 
         foreach($this->provinceDeck->getCardsInLocation('hand') as $card) {
-            $this->troops->addTroop($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
+            $this->troops->addTroops($card['location_arg'], $card['type_arg'], $this->provinces[$card['type_arg']]['support']);
         }
         self::notifyAllPlayers("newYear", clienttranslate('Beginning of new consular year. Recruiting new cohors.'), array(
             'consular_year' => $this->getGameStateValue('consular_year'),
@@ -324,6 +324,144 @@ class ParaBellumLudo extends Table
                 'token_id' => $province['troop_id'],
             ));
         }
+        // Barbarians on the move
+        // First of all check if there are still invaders from previous years
+        foreach ($this->troops->getTroopsByPlayer(-1) as $barbarian) {
+            // If the province is not contended, barbarians are going to attack
+            if (count($this->troops->getTroopsByLocation($barbarian['troop_location_id'])) == 1) {
+                $attackProvinceList = array();
+                $attackDefenders = PHP_INT_MAX;
+                foreach ($this->provinces[barbarian['troop_location_id']]['borders'] as $candidateProvince) {
+                    $troopsInProvince = $this->troops->getTroopsByLocation($candidateProvince);
+                    if (count($troopsInProvince) > 1) {
+                        // destination is contended, barbarians cannot invade
+                    } else {
+                        // self::notifyAllPlayers('debug', var_dump($troopsInProvince), array());
+                        // check for confining province less defended
+                        foreach ($troopsInProvince as $candidateDefenders) {
+                            // This should cycle at most one time
+                            if ($candidateDefenders['troop_count'] <= $attackDefenders) {
+                                if ($candidateDefenders['troop_count'] < $attackDefenders) { $attackProvinceList = array(); }
+                                $attackProvinceList[] = $candidateProvince;
+                                $attackDefenders = $candidateDefenders['troop_count'];
+                            }
+                        }
+                    }
+                }
+                if (count($attackProvinceList) > 0) {
+                    $attackProvince = $attackProvinceList[bga_rand(0, count($attackProvinceList) - 1)];
+                    $this->troops->removeTroops(-1, $barbarian['troop_location_id'], $barbarian['troop_count']);
+                    $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
+                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops} tribes.'), array(
+                        'barbarian_province' => $this->provinces[$barbarian['troop_location_id']]['name'],
+                        'target_province' => $this->provinces[$attackProvince]['name'],
+                        'target_province_id' => $attackProvince,
+                        'barbarian_troops' => $barbarian['troop_count'],
+                        'token_id' => $barbarian['troop_id'],
+                    ));
+                }
+            }
+        }
+
+        // Invaders from outside of the empire
+        foreach ($this->barbarians as $barbarian) {
+            // Roll a dice
+            $dice = bga_rand(1,6);
+            self::notifyAllPlayers('barbarianRoll', clienttranslate('Barbarians in ${barbarian_province} rolled a ${barbarian_dice}'), array(
+                'barbarian_province' => $barbarian['name'],
+                'barbarian_dice' => $dice
+            ));
+            switch ($dice) {
+                case 1: case 2: case 3: case 4:
+                // lazy barbarians, they do nothing
+                break;
+                case 5: case 6:
+                // attack
+                $attackProvinceList = array();
+                $attackDefenders = PHP_INT_MAX;
+                foreach ($barbarian['borders'] as $candidateProvince) {
+                    $troopsInProvince = $this->troops->getTroopsByLocation($candidateProvince);
+                    if (count($troopsInProvince) > 1) {
+                        // destination is contended, barbarians cannot invade
+                    } else {
+                        // self::notifyAllPlayers('debug', var_dump($troopsInProvince), array());
+                        // check for confining province less defended
+                        foreach ($troopsInProvince as $candidateDefenders) {
+                            // This should cycle at most one time
+                            if ($candidateDefenders['troop_count'] <= $attackDefenders) {
+                                if ($candidateDefenders['troop_count'] < $attackDefenders) { $attackProvinceList = array(); }
+                                $attackProvinceList[] = $candidateProvince;
+                                $attackDefenders = $candidateDefenders['troop_count'];
+                            }
+                        }
+                    }
+                }
+                if (count($attackProvinceList) > 0) {
+                    $attackProvince = $attackProvinceList[bga_rand(0, count($attackProvinceList) - 1)];
+                    $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
+                    self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops} tribes.'), array(
+                        'barbarian_province' => $barbarian['name'],
+                        'target_province' => $this->provinces[$attackProvince]['name'],
+                        'target_province_id' => $attackProvince,
+                        'barbarian_troops' => 5,
+                        'token_id' => null,
+                    ));
+                }
+                break;
+            }
+        }
+        // Barbarian conflict resolution
+        // Get all provinces with barbarian tribes
+        foreach ($this->troops->getTroopsByType(pblTroops::BARBARIANS) as $barbarianTribe) {
+            $troopsInProvince = $this->troops->getTroopsByLocation($barbarianTribe['troop_location_id']);
+            if (count($troopsInProvince) > 1) {
+                // Contended province, we battle
+                $atkTroops = null;
+                $defTroops = null;
+                foreach($troopsInProvince as $contender) {
+                    if ($contender['troop_player_id'] == -1) {
+                        $atkTroops = $contender;
+                    } else {
+                        $defTroops = $contender;
+                    }
+                }
+                // Rolling dice
+                $dice1 = bga_rand(1,6);
+                $dice2 = bga_rand(1,6);
+                $diceResult = $dice1+$dice2;
+                $modifier = $atkTroops['troop_count'] - $defTroops['troop_count'];
+                if ($modifier > 4) { $modifier = 4; }
+                if ($modifier < -4) { $modifier = -4; }
+                if ($defTroops['troop_type'] == pblTroops::FORT) { $modifier -= 1; }
+                $diceResult += $modifier;
+                $msg = 'Barbarians rolled ${dice1} ${dice2}. ';
+                if ($diceResult <= 3) {
+                    // Total defeat
+                    $msg .= 'Attack in ${location_name} was a total defeat.';
+                } else if ($diceResult <= 6) {
+                    // Partial defeat
+                    $msg .= 'Attack in ${location_name} was a partial defeat.';
+                } else if ($diceResult == 7) {
+                    // Nothing happened
+                    $msg .= 'Attack in ${location_name} was a stall.';
+                } else if ($diceResult <= 10) {
+                    // Partial victory
+                    $msg .= 'Attack in ${location_name} was a partial victory.';
+                } else {
+                    // Outstanding victory
+                    $msg .= 'Attack in ${location_name} was an outstanding victory.';
+                }
+                self::notifyAllPlayers('battle', $msg, array(
+                    'dice1' => $dice1,
+                    'dice2' => $dice2,
+                    'location_name' => $this->provinces[$atkTroops['troop_location_id']]['name'],
+                    'location_id' => $atkTroops['troop_location_id'],
+
+                ));
+            }
+        }
+
+        // End turn
         $this->gamestate->nextState('newYear');
     }
  

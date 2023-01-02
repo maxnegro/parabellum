@@ -27,6 +27,12 @@
 
 class pblTroops extends APP_GameClass {
    var $table;
+
+   const BARBARIANS = 1;
+   const EAGLE      = 2;
+   const FORT       = 3;
+   const SHIP       = 4;
+
    function __construct() {
       $this->table = 'troop';
 
@@ -43,7 +49,7 @@ class pblTroops extends APP_GameClass {
       self::DbQuery("DELETE FROM " . $this->table);
    }
 
-   function addTroop($player_id, $location_id, $nbr) {
+   function addTroops($player_id, $location_id, $nbr, $troop_type = self::EAGLE) {
       $sql = "";
       if (($result = $this->getTroop($player_id, $location_id)) != null) {
          $sql = sprintf("UPDATE `%s` SET `troop_count` = `troop_count` + %d WHERE `troop_id` = %d",
@@ -54,8 +60,25 @@ class pblTroops extends APP_GameClass {
       } else {
          $sql = sprintf("INSERT INTO `%s` (`troop_type`, `troop_location_id`, `troop_player_id`, `troop_count`) VALUES (%d,%d,%d,%d)",
             $this->table,
-            2, $location_id, $player_id, $nbr
+            $troop_type, $location_id, $player_id, $nbr
          );
+      }
+      return self::DbQuery($sql);
+   }
+
+   function removeTroops($player_id, $location_id, $nbr) {
+      $sql = "";
+      $res = $this->getTroop($player_id, $location_id);
+      if ($res != null) {
+         if ($res['troop_count'] <= $nbr) {
+            $sql = sprintf("DELETE FROM `%s` WHERE troop_player_id = %d AND troop_location_id = %d", 
+               $this->table, $player_id, $location_id
+            );
+         } else {
+            $sql = sprintf("UPDATE `%s` SET troop_player_count = troop_player_count - %d WHERE troop_player_id = %d AND troop_location_id = %d",
+               $this->table, $nbr, $player_id, $location_id
+            );
+         }
       }
       return self::DbQuery($sql);
    }
@@ -97,6 +120,20 @@ class pblTroops extends APP_GameClass {
    function getTroopsByLocation($location_id) {
       $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` WHERE troop_location_id = %d", 
          $this->table, $location_id,
+      );
+      return self::getCollectionFromDb($sql);
+   }
+
+   function getTroopsByPlayer($player_id) {
+      $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` WHERE troop_player_id = %d", 
+         $this->table, $player_id,
+      );
+      return self::getCollectionFromDb($sql);
+   }
+
+   function getTroopsByType($troop_type) {
+      $sql = sprintf("SELECT troop_id, troop_type, troop_location_id, troop_player_id, troop_count FROM `%s` WHERE troop_type = %d", 
+         $this->table, $troop_type,
       );
       return self::getCollectionFromDb($sql);
    }
