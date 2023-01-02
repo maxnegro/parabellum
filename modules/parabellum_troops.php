@@ -75,7 +75,7 @@ class pblTroops extends APP_GameClass {
                $this->table, $player_id, $location_id
             );
          } else {
-            $sql = sprintf("UPDATE `%s` SET troop_player_count = troop_player_count - %d WHERE troop_player_id = %d AND troop_location_id = %d",
+            $sql = sprintf("UPDATE `%s` SET troop_count = troop_count - %d WHERE troop_player_id = %d AND troop_location_id = %d",
                $this->table, $nbr, $player_id, $location_id
             );
          }
@@ -83,6 +83,27 @@ class pblTroops extends APP_GameClass {
       return self::DbQuery($sql);
    }
 
+   function updateTroops($player_id, $location_id, $nbr) {
+      $sql = "";
+      if ($nbr == 0) {
+         $sql = sprintf("DELETE FROM `%s` WHERE troop_player_id = %d AND troop_location_id = %d", 
+            $this->table, $player_id, $location_id
+         );
+      } else {
+         $sql = sprintf("UPDATE `%s` SET troop_count = %d WHERE troop_player_id = %d AND troop_location_id = %d",
+            $this->table, $nbr, $player_id, $location_id
+         );
+      }
+      return self::DbQuery($sql);
+   }
+
+   function moveTroopsById($troop_id, $location_id) {
+      $sql = sprintf("UPDATE `%s` SET troop_location_id = %d WHERE troop_id = %d", 
+         $this->table, $location_id, $troop_id
+      );
+      return self::DbQuery($sql);
+   }
+   
    function addDesolation($location_id) {
       if (!empty($this->getTroopsByLocation($location_id))) {
          return false;

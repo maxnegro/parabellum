@@ -350,8 +350,9 @@ class ParaBellumLudo extends Table
                 }
                 if (count($attackProvinceList) > 0) {
                     $attackProvince = $attackProvinceList[bga_rand(0, count($attackProvinceList) - 1)];
-                    $this->troops->removeTroops(-1, $barbarian['troop_location_id'], $barbarian['troop_count']);
-                    $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
+                    $this->troops->moveTroopsById($barbarian['troop_id'], $attackProvince);
+                    // $this->troops->removeTroops(-1, $barbarian['troop_location_id'], $barbarian['troop_count']);
+                    // $this->troops->addTroops(-1, $attackProvince, 5, pblTroops::BARBARIANS);
                     self::notifyAllPlayers('barbarianAttack', clienttranslate('Barbarians in ${barbarian_province} are attacking ${target_province} with ${barbarian_troops} tribes.'), array(
                         'barbarian_province' => $this->provinces[$barbarian['troop_location_id']]['name'],
                         'target_province' => $this->provinces[$attackProvince]['name'],
@@ -419,6 +420,7 @@ class ParaBellumLudo extends Table
                 $atkTroops = null;
                 $defTroops = null;
                 foreach($troopsInProvince as $contender) {
+                    // $contender['troop_count'] = intval($contender['troop_count']);
                     if ($contender['troop_player_id'] == -1) {
                         $atkTroops = $contender;
                     } else {
@@ -438,25 +440,31 @@ class ParaBellumLudo extends Table
                 if ($diceResult <= 3) {
                     // Total defeat
                     $msg .= 'Attack in ${location_name} was a total defeat.';
+                    $atkTroops['troop_count'] = 0;
                 } else if ($diceResult <= 6) {
                     // Partial defeat
                     $msg .= 'Attack in ${location_name} was a partial defeat.';
+                    $atkTroops['troop_count'] -= floor($atkTroops['troop_count'] / 2);
                 } else if ($diceResult == 7) {
                     // Nothing happened
                     $msg .= 'Attack in ${location_name} was a stall.';
                 } else if ($diceResult <= 10) {
                     // Partial victory
                     $msg .= 'Attack in ${location_name} was a partial victory.';
+                    $defTroops['troop_count'] -= floor($defTroops['troop_count'] / 2);
                 } else {
                     // Outstanding victory
                     $msg .= 'Attack in ${location_name} was an outstanding victory.';
+                    $defTroops['troop_count'] = 0;
                 }
+                $this->troops->updateTroops($atkTroops['troop_player_id'], $atkTroops['troop_location_id'], $atkTroops['troop_count']);
+                $this->troops->updateTroops($defTroops['troop_player_id'], $defTroops['troop_location_id'], $defTroops['troop_count']);
                 self::notifyAllPlayers('battle', $msg, array(
                     'dice1' => $dice1,
                     'dice2' => $dice2,
                     'location_name' => $this->provinces[$atkTroops['troop_location_id']]['name'],
-                    'location_id' => $atkTroops['troop_location_id'],
-
+                    'atkTroops' => $atkTroops,
+                    'defTroops' => $defTroops,
                 ));
             }
         }
