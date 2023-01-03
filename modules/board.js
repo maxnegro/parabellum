@@ -437,9 +437,13 @@ function clearMap() {
 
 function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
 
+    var existing = false;
     var token=dojo.byId("troops-"+tId);
     if (!token) {
         token=dojo.place('<div id="troops-'+tId+'" class="token"/>', "map-tokens");
+        existing = false;
+    } else {
+        existing = true;
     }
     var tX;
     var tY;
@@ -468,7 +472,16 @@ function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
             'green'
         ][player2color(tPlayer)];
     }
-    root.troopZones[tProv].placeInZone("troops-"+tId,tWeight);
+    if (existing) {
+        var previousZone = token.parentNode.id;
+        var previousId = previousZone.substr(10);
+        if (previousId != tProv) {
+            root.troopZones[previousId].removeFromZone('troops-'+tId,false,"troopZone-"+tProv);
+            root.troopZones[tProv].placeInZone("troops-"+tId,tWeight);
+        } 
+    } else {
+        root.troopZones[tProv].placeInZone("troops-"+tId,tWeight);
+    }
     return token
 }
 
