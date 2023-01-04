@@ -333,7 +333,7 @@ class ParaBellumLudo extends Table
             if (count($this->troops->getTroopsByLocation($barbarian['troop_location_id'])) == 1) {
                 $attackProvinceList = array();
                 $attackDefenders = PHP_INT_MAX;
-                foreach ($this->provinces[$barbarian['troop_location_id']]['landBorders'] as $candidateProvince) {
+                foreach ($this->provinces[$barbarian['troop_location_id']]['borders'] as $candidateProvince) {
                     $troopsInProvince = $this->troops->getTroopsByLocation($candidateProvince);
                     if (count($troopsInProvince) > 1) {
                         // destination is contended, barbarians cannot invade

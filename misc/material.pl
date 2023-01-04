@@ -186,7 +186,7 @@ foreach my $ID (sort {$a<=>$b} keys %provinces) {
         print $f "            },\n";
     }
     print $f "        },\n";
-    print $f "        'barbarians':      {\n";
+    # print $f "        'barbarians':      {\n";
     # foreach my $b (sort {$a<=>$b} keys %{$provinces{$ID}{barbarians}}) {
     #     print $f "            '$b':{\n";
     #     print $f "                'slot':       {'x':$provinces{$ID}{barbarians}{$b}{x}, 'y':$provinces{$ID}{barbarians}{$b}{y}, 'angle':$provinces{$ID}{barbarians}{$b}{angle}},\n";

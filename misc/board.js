@@ -11,11 +11,6 @@ var provinces={
                 'slot':       {'x':1207, 'y':1047},
             },
         },
-        'barbarians':      {
-            '1':{
-                'slot':       {'x':1419, 'y':692, 'angle':270},
-            },
-        },
         'borders':      {
             '2':{
                 'slot':       {'x':1515, 'y':1184, 'angle':45},
@@ -30,8 +25,6 @@ var provinces={
             '1':{
                 'slot':       {'x':1600, 'y':1196},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '1':{
@@ -53,8 +46,6 @@ var provinces={
             '1':{
                 'slot':       {'x':1354, 'y':1336},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '2':{
@@ -83,8 +74,6 @@ var provinces={
                 'slot':       {'x':1149, 'y':1721},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '3':{
                 'slot':       {'x':1375, 'y':1622, 'angle':270},
@@ -108,8 +97,6 @@ var provinces={
             '5':{
                 'slot':       {'x':1747, 'y':2091},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '3':{
@@ -141,8 +128,6 @@ var provinces={
                 'slot':       {'x':1237, 'y':2252},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '4':{
                 'slot':       {'x':1195, 'y':1999, 'angle':315},
@@ -167,8 +152,6 @@ var provinces={
                 'slot':       {'x':300, 'y':2219},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '6':{
                 'slot':       {'x':719, 'y':2190, 'angle':0},
@@ -189,8 +172,6 @@ var provinces={
             '4':{
                 'slot':       {'x':785, 'y':2638},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '6':{
@@ -216,11 +197,6 @@ var provinces={
                 'slot':       {'x':1237, 'y':2751},
             },
         },
-        'barbarians':      {
-            '7':{
-                'slot':       {'x':748, 'y':2955, 'angle':90},
-            },
-        },
         'borders':      {
             '8':{
                 'slot':       {'x':570, 'y':2663, 'angle':270},
@@ -237,11 +213,6 @@ var provinces={
         'docks':      {
             '6':{
                 'slot':       {'x':1898, 'y':2859},
-            },
-        },
-        'barbarians':      {
-            '7':{
-                'slot':       {'x':1756, 'y':3188, 'angle':90},
             },
         },
         'borders':      {
@@ -262,11 +233,6 @@ var provinces={
                 'slot':       {'x':2842, 'y':3360},
             },
         },
-        'barbarians':      {
-            '7':{
-                'slot':       {'x':3145, 'y':3706, 'angle':135},
-            },
-        },
         'borders':      {
             '10':{
                 'slot':       {'x':2759, 'y':3689, 'angle':180},
@@ -283,11 +249,6 @@ var provinces={
         'docks':      {
             '9':{
                 'slot':       {'x':3700, 'y':3500},
-            },
-        },
-        'barbarians':      {
-            '7':{
-                'slot':       {'x':3679, 'y':3745, 'angle':180},
             },
         },
         'borders':      {
@@ -308,11 +269,6 @@ var provinces={
                 'slot':       {'x':4003, 'y':3438},
             },
         },
-        'barbarians':      {
-            '6':{
-                'slot':       {'x':4297, 'y':3577, 'angle':0},
-            },
-        },
         'borders':      {
             '12':{
                 'slot':       {'x':4002, 'y':3534, 'angle':210},
@@ -329,11 +285,6 @@ var provinces={
         'docks':      {
             '9':{
                 'slot':       {'x':4160, 'y':3059},
-            },
-        },
-        'barbarians':      {
-            '6':{
-                'slot':       {'x':4423, 'y':3057, 'angle':45},
             },
         },
         'borders':      {
@@ -360,14 +311,6 @@ var provinces={
         'slot':       {'x':4494, 'y':2689, 'dir':'H'},
         'docks':      {
         },
-        'barbarians':      {
-            '5':{
-                'slot':       {'x':5284, 'y':3068, 'angle':315},
-            },
-            '6':{
-                'slot':       {'x':4862, 'y':3081, 'angle':315},
-            },
-        },
         'borders':      {
             '14':{
                 'slot':       {'x':4490, 'y':2873, 'angle':180},
@@ -386,11 +329,6 @@ var provinces={
         'slot':       {'x':4774, 'y':2484, 'dir':'H'},
         'docks':      {
         },
-        'barbarians':      {
-            '5':{
-                'slot':       {'x':4978, 'y':2678, 'angle':0},
-            },
-        },
         'borders':      {
             '15':{
                 'slot':       {'x':4833, 'y':2695, 'angle':135},
@@ -405,14 +343,6 @@ var provinces={
         'support':    2,
         'slot':       {'x':4729, 'y':2128, 'dir':'H'},
         'docks':      {
-        },
-        'barbarians':      {
-            '4':{
-                'slot':       {'x':4879, 'y':2052, 'angle':270},
-            },
-            '5':{
-                'slot':       {'x':4968, 'y':2304, 'angle':45},
-            },
         },
         'borders':      {
             '14':{
@@ -436,11 +366,6 @@ var provinces={
         'docks':      {
             '11':{
                 'slot':       {'x':4292, 'y':2256},
-            },
-        },
-        'barbarians':      {
-            '4':{
-                'slot':       {'x':4579, 'y':2063, 'angle':315},
             },
         },
         'borders':      {
@@ -467,8 +392,6 @@ var provinces={
         'slot':       {'x':3824, 'y':2525, 'dir':'V'},
         'docks':      {
         },
-        'barbarians':      {
-        },
         'borders':      {
             '18':{
                 'slot':       {'x':4019, 'y':2569, 'angle':0},
@@ -492,8 +415,6 @@ var provinces={
             '9':{
                 'slot':       {'x':3706, 'y':2855},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '14':{
@@ -519,8 +440,6 @@ var provinces={
                 'slot':       {'x':3355, 'y':2751},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '19':{
                 'slot':       {'x':3879, 'y':2632, 'angle':315},
@@ -544,8 +463,6 @@ var provinces={
             '11':{
                 'slot':       {'x':3601, 'y':2385},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '18':{
@@ -571,8 +488,6 @@ var provinces={
                 'slot':       {'x':3425, 'y':2339},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '22':{
                 'slot':       {'x':3557, 'y':2426, 'angle':0},
@@ -596,8 +511,6 @@ var provinces={
             '10':{
                 'slot':       {'x':3086, 'y':2523},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '21':{
@@ -629,8 +542,6 @@ var provinces={
                 'slot':       {'x':3022, 'y':2657},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '24':{
                 'slot':       {'x':2956, 'y':2709, 'angle':180},
@@ -644,11 +555,6 @@ var provinces={
         'docks':      {
             '11':{
                 'slot':       {'x':3431, 'y':2160},
-            },
-        },
-        'barbarians':      {
-            '3':{
-                'slot':       {'x':3262, 'y':1808, 'angle':315},
             },
         },
         'borders':      {
@@ -675,8 +581,6 @@ var provinces={
                 'slot':       {'x':2479, 'y':2201},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
             '24':{
                 'slot':       {'x':2788, 'y':2381, 'angle':75},
@@ -698,14 +602,6 @@ var provinces={
         'slot':       {'x':2394, 'y':1699, 'dir':'H'},
         'docks':      {
         },
-        'barbarians':      {
-            '2':{
-                'slot':       {'x':2380, 'y':1653, 'angle':315},
-            },
-            '3':{
-                'slot':       {'x':2737, 'y':1196, 'angle':0},
-            },
-        },
         'borders':      {
             '26':{
                 'slot':       {'x':2830, 'y':1998, 'angle':0},
@@ -726,11 +622,6 @@ var provinces={
         'support':    3,
         'slot':       {'x':1955, 'y':1629, 'dir':'H'},
         'docks':      {
-        },
-        'barbarians':      {
-            '2':{
-                'slot':       {'x':2171, 'y':1550, 'angle':270},
-            },
         },
         'borders':      {
             '3':{
@@ -759,11 +650,6 @@ var provinces={
                 'slot':       {'x':1678, 'y':1116},
             },
         },
-        'barbarians':      {
-            '2':{
-                'slot':       {'x':2013, 'y':1369, 'angle':0},
-            },
-        },
         'borders':      {
             '2':{
                 'slot':       {'x':1891, 'y':1479, 'angle':180},
@@ -790,8 +676,6 @@ var provinces={
             '8':{
                 'slot':       {'x':2516, 'y':2517},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '5':{
@@ -823,8 +707,6 @@ var provinces={
                 'slot':       {'x':1897, 'y':2314},
             },
         },
-        'barbarians':      {
-        },
         'borders':      {
         },
     },
@@ -839,8 +721,6 @@ var provinces={
             '6':{
                 'slot':       {'x':2336, 'y':2891},
             },
-        },
-        'barbarians':      {
         },
         'borders':      {
             '31':{
