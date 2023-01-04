@@ -312,11 +312,15 @@ function (dojo, declare) {
             // this.notifqueue.setSynchronous( 'cardPlayed', 3000 );
             //
             dojo.subscribe('newYear', this, 'notif_newYear');
-            dojo.subscribe('removeDesolation', this, 'notif_removeDesolation');
-            dojo.subscribe('removeFromHand', this, 'notif_removeFromHand');
-            dojo.subscribe('barbarianAttack', this, 'notif_barbarianAttack');
-            dojo.subscribe('battle', this, 'notif_battle');
             this.notifqueue.setSynchronous('newYear', 3000);
+            dojo.subscribe('removeDesolation', this, 'notif_removeDesolation');
+            // this.notifqueue.setSynchronous('removeDesolation', 3000);
+            dojo.subscribe('removeFromHand', this, 'notif_removeFromHand');
+            this.notifqueue.setSynchronous('removeFromHand', 3000);
+            dojo.subscribe('barbarianAttack', this, 'notif_barbarianAttack');
+            this.notifqueue.setSynchronous('barbarianAttack', 1000);
+            dojo.subscribe('battle', this, 'notif_battle');
+            this.notifqueue.setSynchronous('battle', 3000);
         },
 
         // TODO: from this point and below, you can write your game notifications handling methods

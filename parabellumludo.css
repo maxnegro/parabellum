@@ -208,3 +208,11 @@ div.border-value {
     font-size: 28px;
 }
 
+/**** Zones  ****/
+div.troopZoneH { width: 200px; height: 90px; }
+div.troopZoneV { width: 90px; height: 200px; }
+div.troopZoneD { width: 144px; height: 144px; }
+div.troopZoneE { width: 208px; height: 208px; }
+
+
+

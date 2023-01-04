@@ -41,7 +41,7 @@ while (my $row=$csv->getline_hr($f)) {
     my %attack=map {($_,{})} grep {my $p=$_; grep {$_==$row->{ID}} keys %{$provinces{$p}{barbarians}}} sort keys %provinces;
     $barbarians{$row->{ID}}={
         name        => $row->{name},
-        attack      => \%attack
+        borders     => \%attack
     };
 }
 close $f;
@@ -147,7 +147,7 @@ foreach my $ID (sort {$a<=>$b} keys %provinces) {
     print $f "        'name'=>       '$provinces{$ID}{name}',\n";
     print $f "        'support'=>    $provinces{$ID}{support},\n";
     print $f "        'docks'=>      [".join(',',sort keys %{$provinces{$ID}{docks}})."],\n";
-    print $f "        'barbarians'=> [".join(',',sort keys %{$provinces{$ID}{barbarians}})."],\n";
+    # print $f "        'barbarians'=> [".join(',',sort keys %{$provinces{$ID}{barbarians}})."],\n";
     print $f "        'borders'=>    [".join(',',sort keys %{$provinces{$ID}{borders}})."],\n";
     print $f "    ),\n";
 }
@@ -157,7 +157,7 @@ print $f '$this->barbarians = array('."\n";
 foreach my $ID (sort {$a<=>$b} keys %barbarians) {
     print $f "    $ID => array(\n";
     print $f "        'name'=>       '$barbarians{$ID}{name}',\n";
-    print $f "        'attack'=>     [".join(',',sort keys %{$barbarians{$ID}{attack}})."],\n";
+    print $f "        'borders'=>    [".join(',',sort keys %{$barbarians{$ID}{borders}})."],\n";
     print $f "    ),\n";
 }
 print $f ");\n";
@@ -187,12 +187,12 @@ foreach my $ID (sort {$a<=>$b} keys %provinces) {
     }
     print $f "        },\n";
     print $f "        'barbarians':      {\n";
-    foreach my $b (sort {$a<=>$b} keys %{$provinces{$ID}{barbarians}}) {
-        print $f "            '$b':{\n";
-        print $f "                'slot':       {'x':$provinces{$ID}{barbarians}{$b}{x}, 'y':$provinces{$ID}{barbarians}{$b}{y}, 'angle':$provinces{$ID}{barbarians}{$b}{angle}},\n";
-        print $f "            },\n";
-    }
-    print $f "        },\n";
+    # foreach my $b (sort {$a<=>$b} keys %{$provinces{$ID}{barbarians}}) {
+    #     print $f "            '$b':{\n";
+    #     print $f "                'slot':       {'x':$provinces{$ID}{barbarians}{$b}{x}, 'y':$provinces{$ID}{barbarians}{$b}{y}, 'angle':$provinces{$ID}{barbarians}{$b}{angle}},\n";
+    #     print $f "            },\n";
+    # }
+    # print $f "        },\n";
     print $f "        'borders':      {\n";
     foreach my $b (sort {$a<=>$b} keys %{$provinces{$ID}{borders}}) {
         print $f "            '$b':{\n";

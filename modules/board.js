@@ -1209,27 +1209,31 @@ function InitBoard(aRoot) {
         z.style.top=provinces[id].slot.y+"px";
         z.style.position="absolute";
         root.troopZones[id].create(root, "troopZone-"+id, 84, 84);
-        switch (provinces[id].slot.dir])) {
+        switch (provinces[id].slot.dir) {
             case 'H':
-                root.troopZones[id].setPattern('horizontalfit');
-                z.style.width="170px";
-                z.style.height="84px";
+                z.className="troopZoneH";
+                z.style.maxWidth="200px";
+                // z.style.height="84px";
+                // root.troopZones[id].setPattern('horizontalfit');
                 break;
             case 'V':
-                root.troopZones[id].setPattern('verticalfit');
-                z.style.width="84px";
-                z.style.height="170px";
+                z.className="troopZoneV";
+                // z.style.width="84px";
+                z.style.maxHeight="200px";
+                // root.troopZones[id].setPattern('verticalfit');
                 break;
             case 'D':
+                z.className="troopZoneD";
+                // z.style.maxWidth="144px";
+                // z.style.maxHeight="144px";
                 root.troopZones[id].setPattern('diagonal');
                 root.troopZones[id].item_margin = 60;
-                z.style.width="14px";
-                z.style.height="144px";
                 break;
             case 'E':
+                z.className="troopZoneE";
+                // z.style.maxWidth="208px";
+                // z.style.maxHeight="208px";
                 root.troopZones[id].setPattern('ellipticalfit');
-                z.style.width="208px";
-                z.style.height="208px";
                 break;
         }
     }
