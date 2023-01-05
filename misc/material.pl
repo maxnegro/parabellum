@@ -41,7 +41,11 @@ while (my $row=$csv->getline_hr($f)) {
     my %attack=map {($_,{})} grep {my $p=$_; grep {$_==$row->{ID}} keys %{$provinces{$p}{barbarians}}} sort keys %provinces;
     $barbarians{$row->{ID}}={
         name        => $row->{name},
-        borders     => \%attack
+        borders     => \%attack,
+        slot        => {
+            x       => $row->{slotX},
+            y       => $row->{slotY},
+        },
     };
 }
 close $f;
@@ -226,6 +230,7 @@ print $f "var barbarians={\n";
 foreach my $ID (sort {$a<=>$b} keys %barbarians) {
     print $f "    '$ID':{\n";
     print $f "        'name':       '$barbarians{$ID}{name}',\n";
+    print $f "        'slot':       {'x':$barbarians{$ID}{slot}{x}, 'y':$barbarians{$ID}{slot}{y}},\n";
     print $f "        'attack':     {\n";
     foreach my $d (sort {$a<=>$b} keys %{$barbarians{$ID}{attack}}) {
         print $f "            '$d':{\n";

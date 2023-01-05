@@ -1,8 +1,8 @@
-ID;name
-1;Hibernia et Caledonia
-2;Germania Magna
-3;Sarmatia
-4;Iberia
-5;Regnum Parthicum
-6;Arabia
-7;Gaetulia
+ID;name;slotX;slotY
+1;Hibernia et Caledonia;1380;500
+2;Germania Magna;2370;1320
+3;Sarmatia;3300;1400
+4;Iberia;4600;1800
+5;Regnum Parthicum;5300;2650
+6;Arabia;4800;3300
+7;Gaetulia;1300;3600

@@ -916,6 +916,7 @@ var seas={
 var barbarians={
     '1':{
         'name':       'Hibernia et Caledonia',
+        'slot':       {'x':1380, 'y':500},
         'attack':     {
             '1':{
                 'slot':       {'x':1419, 'y':692, 'angle':90},
@@ -924,6 +925,7 @@ var barbarians={
     },
     '2':{
         'name':       'Germania Magna',
+        'slot':       {'x':2370, 'y':1320},
         'attack':     {
             '28':{
                 'slot':       {'x':2380, 'y':1653, 'angle':135},
@@ -938,6 +940,7 @@ var barbarians={
     },
     '3':{
         'name':       'Sarmatia',
+        'slot':       {'x':3300, 'y':1400},
         'attack':     {
             '26':{
                 'slot':       {'x':3262, 'y':1808, 'angle':135},
@@ -949,6 +952,7 @@ var barbarians={
     },
     '4':{
         'name':       'Iberia',
+        'slot':       {'x':4600, 'y':1800},
         'attack':     {
             '17':{
                 'slot':       {'x':4879, 'y':2052, 'angle':90},
@@ -960,6 +964,7 @@ var barbarians={
     },
     '5':{
         'name':       'Regnum Parthicum',
+        'slot':       {'x':5300, 'y':2650},
         'attack':     {
             '15':{
                 'slot':       {'x':5284, 'y':3068, 'angle':135},
@@ -974,6 +979,7 @@ var barbarians={
     },
     '6':{
         'name':       'Arabia',
+        'slot':       {'x':4800, 'y':3300},
         'attack':     {
             '13':{
                 'slot':       {'x':4297, 'y':3577, 'angle':180},
@@ -988,6 +994,7 @@ var barbarians={
     },
     '7':{
         'name':       'Gaetulia',
+        'slot':       {'x':1300, 'y':3600},
         'attack':     {
             '9':{
                 'slot':       {'x':748, 'y':2955, 'angle':270},
