@@ -13,7 +13,7 @@ var Board = (function () {
     var mBoxSize;
     self.PanZoom=null;
 
-    self.Init = function (pRoot) {
+    self.Init = function (aRoot) {
         this.root = aRoot;
         vDiv = document.getElementById("map");
         // PanZoom
