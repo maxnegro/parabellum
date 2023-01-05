@@ -1085,7 +1085,7 @@ var Board = (function () {
                     z.style.maxHeight="500px";
                     break;
                 case 'D':
-                    z.className="troopZoneD";
+                    z.className="shipZoneD";
                     this.root.shipZones[id].setPattern('diagonal');
                     this.root.shipZones[id].item_margin = 60;
                     break;
@@ -1102,11 +1102,11 @@ var Board = (function () {
             this.root.dockZones[p]={};
             for (var s in provinces[p].docks) {
                 this.root.dockZones[p][s]=new ebg.zone();
-                var z=dojo.place('<div id="sockZone-'+p+'-'+s+'"/>', "map-tokens");
+                var z=dojo.place('<div id="dockZone-'+p+'-'+s+'"/>', "map-tokens");
                 z.style.left=provinces[p].docks[s].slot.x+"px";
                 z.style.top=provinces[p].docks[s].slot.y+"px";
                 z.style.position="absolute";
-                z.className="shipZoneH";
+                z.className="dockZoneH";
                 z.style.maxWidth="500px";
                 this.root.dockZones[p][s].create(this.root, "dockZone-"+p+"-"+s, 84, 84);
             }
@@ -1115,13 +1115,13 @@ var Board = (function () {
         for (var p in provinces) {
             this.root.borderZones[p]={};
             for (var b in provinces[p].borders) {
-                this.root.borderZones[p][s]=new ebg.zone();
+                this.root.borderZones[p][b]=new ebg.zone();
                 var z=dojo.place('<div id="borderZone-'+p+'-'+b+'"/>', "map-tokens");
-                z.style.left=provinces[p].borders[s].slot.x+"px";
-                z.style.top=provinces[p].borders[s].slot.y+"px";
+                z.style.left=provinces[p].borders[b].slot.x+"px";
+                z.style.top=provinces[p].borders[b].slot.y+"px";
                 z.style.position="absolute";
                 this.root.borderZones[p][b].create(this.root, "borderZone-"+p+"-"+b, 84, 84);
-                z.className="shipZoneH";
+                z.className="borderZoneH";
                 z.style.maxWidth="500px";
             }
         }
