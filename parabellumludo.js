@@ -3,7 +3,8 @@
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
  * ParaBellumLudo implementation : © <Your name here> <Your email address here>
  *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * This code has been produced
+ *  on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
@@ -31,7 +32,7 @@ function (dojo, declare) {
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
-            InitBoard(this);
+            Board.Init(this);
         },
 
         /*
@@ -59,10 +60,10 @@ function (dojo, declare) {
             }
 
             // Setting up map
-            resetZoom();
+            Board.resetZoom();
             for (var troopsIx in gamedatas.troops) {
                 var troops = gamedatas.troops[troopsIx];
-                addToken(
+                Board.addToken(
                     troops.troop_id,
                     troops.troop_type,
                     troops.troop_player_id,
@@ -71,12 +72,6 @@ function (dojo, declare) {
                     1
                 );
             };
-
-            //~ addBorder("",3,-1,1);
-            //~ addBorder(this.getActivePlayerId(),12,1,2);
-            //~ addBorder(this.getActivePlayerId(),12,2,3);
-
-
 
             // TODO: Set up your game interface here, according to "gamedatas"
 
@@ -328,7 +323,7 @@ function (dojo, declare) {
 
             for (var troopsIx in notif.args.troops) {
                 var troops = notif.args.troops[troopsIx];
-                addToken(
+                Board.addToken(
                     troops.troop_id,
                     troops.troop_type,
                     troops.troop_player_id,
@@ -340,11 +335,11 @@ function (dojo, declare) {
         },
         notif_removeDesolation: function( notif ) {
             console.log('Removing '+notif.args.token_id+' from '+notif.args.location_id);
-            removeToken( notif.args.location_id, notif.args.token_id);
+            Board.removeToken( notif.args.location_id, notif.args.token_id);
         },
         notif_addDesolation: function ( notif ) {
             console.log('Adding desolation in '+notif.args.troops.troop_location_id);
-            addToken(
+            Board.addToken(
                 notif.args.troops.troop_id,
                 notif.args.troops.troop_type,
                 notif.args.troops.troop_player_id,
@@ -359,7 +354,7 @@ function (dojo, declare) {
         },
         notif_barbarianAttack: function ( notif ) {
             console.log('Barbarian attack from '+notif.args.barbarian_province+' to '+notif.args.target_province);
-            addToken(
+            Board.addToken(
                 notif.args.barbarian_troops.troop_id,
                 notif.args.barbarian_troops.troop_type,
                 notif.args.barbarian_troops.troop_player_id,
@@ -373,7 +368,7 @@ function (dojo, declare) {
             console.log(notif);
 
             if (notif.args.atkTroops.troop_count > 0) {
-                addToken(
+                Board.addToken(
                     notif.args.atkTroops.troop_id,
                     notif.args.atkTroops.troop_type,
                     notif.args.atkTroops.troop_player_id,
@@ -382,10 +377,10 @@ function (dojo, declare) {
                     1
                 );
             } else {
-                removeToken(notif.args.atkTroops.troop_location_id, notif.args.atkTroops.troop_id);
+                Board.removeToken(notif.args.atkTroops.troop_location_id, notif.args.atkTroops.troop_id);
             }
             if (notif.args.defTroops.troop_count > 0) {
-                addToken(
+                Board.addToken(
                     notif.args.defTroops.troop_id,
                     notif.args.defTroops.troop_type,
                     notif.args.defTroops.troop_player_id,
@@ -394,7 +389,7 @@ function (dojo, declare) {
                     1
                 );
             } else {
-                removeToken(notif.args.defTroops.troop_location_id, notif.args.defTroops.troop_id);
+                Board.removeToken(notif.args.defTroops.troop_location_id, notif.args.defTroops.troop_id);
             }
         },
         /*
