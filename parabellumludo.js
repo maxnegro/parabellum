@@ -27,15 +27,11 @@ function (dojo, declare) {
     return declare("bgagame.parabellumludo", ebg.core.gamegui, {
         constructor: function(){
             console.log('parabellumludo constructor');
-
-
             // Here, you can init the global variables of your user interface
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
-
             InitBoard(this);
-
         },
 
         /*

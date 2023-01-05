@@ -1181,7 +1181,6 @@ function clearMap() {
 };
 
 function addToken(tId,tClass,tPlayer,tValue,tProv,tWeight) {
-
     var existing = false;
     var token=dojo.byId("troops-"+tId);
     if (!token) {
