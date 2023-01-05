@@ -3,7 +3,8 @@
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
  * ParaBellumLudo implementation : © <Your name here> <Your email address here>
  *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * This code has been produced
+ *  on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
@@ -59,7 +60,7 @@ function (dojo, declare) {
             }
 
             // Setting up map
-            resetZoom();
+            Board.resetZoom();
             for (var troopsIx in gamedatas.troops) {
                 var troops = gamedatas.troops[troopsIx];
                 Board.addToken(

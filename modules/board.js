@@ -5,26 +5,7 @@ var Board = (function () {
     // ***** Init *****
     // ****************
 
-    var self = {};
-    self.root;
-
-    var mDiv;
-    var box;
-    var mBoxSize;
-    self.PanZoom=null;
-
-    self.Init = function (aRoot) {
-        this.root = aRoot;
-        var vDiv = document.getElementById("map");
-        // PanZoom
-        var mDiv=document.getElementById("map");
-        var box=document.querySelector("#board");
-        mBoxSize = {
-            x: box.offsetWidth,
-            y: box.offsetHeight,
-        };
-        this.InitPanZoom();
-        this.provinces={
+    var         provinces={
             '1':{
                 'name':       'Britannia',
                 'support':    1,
@@ -755,7 +736,7 @@ var Board = (function () {
                 },
             },
         };
-        this.seas={
+        var seas={
             '1':{
                 'name':       'Mare Germanicum',
                 'slot':       {'x':2100, 'y':1646, 'dir':'E'},
@@ -937,7 +918,7 @@ var Board = (function () {
                 },
             },
         };
-        this.barbarians={
+        var barbarians={
             '1':{
                 'name':       'Hibernia et Caledonia',
                 'slot':       {'x':1380, 'y':500},
@@ -1035,6 +1016,115 @@ var Board = (function () {
                 },
             },
         };
+
+    var self = {};
+    self.root;
+
+    var mDiv;
+    var box;
+    var mBoxSize;
+    self.PanZoom=null;
+
+    self.Init = function (aRoot) {
+        this.root = aRoot;
+        var vDiv = document.getElementById("map");
+        // PanZoom
+        mDiv=document.getElementById("map");
+        box=document.querySelector("#board");
+        mBoxSize = {
+            x: box.offsetWidth,
+            y: box.offsetHeight,
+        };
+        this.InitPanZoom();
+        // init zones
+        this.root.troopZones={};
+        for (var id in provinces) {
+            this.root.troopZones[id]=new ebg.zone();
+            var z=dojo.place('<div id="troopZone-'+id+'"/>', "map-tokens");
+            z.style.left=provinces[id].slot.x+"px";
+            z.style.top=provinces[id].slot.y+"px";
+            z.style.position="absolute";
+            this.root.troopZones[id].create(this.root, "troopZone-"+id, 84, 84);
+            switch (provinces[id].slot.dir) {
+                case 'H':
+                    z.className="troopZoneH";
+                    z.style.maxWidth="200px";
+                    break;
+                case 'V':
+                    z.className="troopZoneV";
+                    z.style.maxHeight="200px";
+                    break;
+                case 'D':
+                    z.className="troopZoneD";
+                    this.root.troopZones[id].setPattern('diagonal');
+                    this.root.troopZones[id].item_margin = 60;
+                    break;
+                case 'E':
+                    z.className="troopZoneE";
+                    z.style.maxWidth="210px";
+                    z.style.height="210px";
+                    this.root.troopZones[id].setPattern('ellipticalfit');
+                    break;
+            }
+        }
+        this.root.shipZones={};
+        for (var id in seas) {
+            this.root.shipZones[id]=new ebg.zone();
+            var z=dojo.place('<div id="shipZone-'+id+'"/>', "map-tokens");
+            z.style.left=seas[id].slot.x+"px";
+            z.style.top=seas[id].slot.y+"px";
+            z.style.position="absolute";
+            this.root.shipZones[id].create(this.root, "shipZone-"+id, 84, 84);
+            switch (seas[id].slot.dir) {
+                case 'H':
+                    z.className="shipZoneH";
+                    z.style.maxWidth="500px";
+                    break;
+                case 'V':
+                    z.className="shipZoneV";
+                    z.style.maxHeight="500px";
+                    break;
+                case 'D':
+                    z.className="troopZoneD";
+                    this.root.shipZones[id].setPattern('diagonal');
+                    this.root.shipZones[id].item_margin = 60;
+                    break;
+                case 'E':
+                    z.className="shipZoneE";
+                    z.style.maxWidth="210px";
+                    z.style.height="210px";
+                    this.root.shipZones[id].setPattern('ellipticalfit');
+                    break;
+            }
+        }
+        this.root.dockZones={};
+        for (var p in provinces) {
+            this.root.dockZones[p]={};
+            for (var s in provinces[p].docks) {
+                this.root.dockZones[p][s]=new ebg.zone();
+                var z=dojo.place('<div id="sockZone-'+p+'-'+s+'"/>', "map-tokens");
+                z.style.left=provinces[p].docks[s].slot.x+"px";
+                z.style.top=provinces[p].docks[s].slot.y+"px";
+                z.style.position="absolute";
+                z.className="shipZoneH";
+                z.style.maxWidth="500px";
+                this.root.dockZones[p][s].create(this.root, "dockZone-"+p+"-"+s, 84, 84);
+            }
+        }
+        this.root.borderZones={};
+        for (var p in provinces) {
+            this.root.borderZones[p]={};
+            for (var b in provinces[p].borders) {
+                this.root.borderZones[p][s]=new ebg.zone();
+                var z=dojo.place('<div id="borderZone-'+p+'-'+b+'"/>', "map-tokens");
+                z.style.left=provinces[p].borders[s].slot.x+"px";
+                z.style.top=provinces[p].borders[s].slot.y+"px";
+                z.style.position="absolute";
+                this.root.borderZones[p][b].create(this.root, "borderZone-"+p+"-"+b, 84, 84);
+                z.className="shipZoneH";
+                z.style.maxWidth="500px";
+            }
+        }
     };
 
     self.player2color=function(aPlayer) {
@@ -1092,94 +1182,6 @@ var Board = (function () {
         zbutton = document.getElementById("button-zoom-center");
         zbutton.addEventListener("click", (e) => this.resetZoom());
         zbutton.addEventListener("touchstart", (e) => this.resetZoom());
-
-        // init zones
-        self.root.troopZones={};
-        for (var id in this.provinces) {
-            self.root.troopZones[id]=new ebg.zone();
-            var z=dojo.place('<div id="troopZone-'+id+'"/>', "map-tokens");
-            z.style.left=this.provinces[id].slot.x+"px";
-            z.style.top=this.provinces[id].slot.y+"px";
-            z.style.position="absolute";
-            self.root.troopZones[id].create(self.root, "troopZone-"+id, 84, 84);
-            switch (this.provinces[id].slot.dir) {
-                case 'H':
-                    z.className="troopZoneH";
-                    z.style.maxWidth="200px";
-                    break;
-                case 'V':
-                    z.className="troopZoneV";
-                    z.style.maxHeight="200px";
-                    break;
-                case 'D':
-                    z.className="troopZoneD";
-                    self.root.troopZones[id].setPattern('diagonal');
-                    self.root.troopZones[id].item_margin = 60;
-                    break;
-                case 'E':
-                    z.className="troopZoneE";
-                    z.style.maxWidth="210px";
-                    z.style.height="210px";
-                    self.root.troopZones[id].setPattern('ellipticalfit');
-                    break;
-            }
-        }
-        self.root.shipZones={};
-        for (var id in this.seas) {
-            self.root.shipZones[id]=new ebg.zone();
-            var z=dojo.place('<div id="shipZone-'+id+'"/>', "map-tokens");
-            z.style.left=this.seas[id].slot.x+"px";
-            z.style.top=this.seas[id].slot.y+"px";
-            z.style.position="absolute";
-            self.root.shipZones[id].create(self.root, "shipZone-"+id, 84, 84);
-            switch (this.seas[id].slot.dir) {
-                case 'H':
-                    z.className="shipZoneH";
-                    z.style.maxWidth="500px";
-                    break;
-                case 'V':
-                    z.className="shipZoneV";
-                    z.style.maxHeight="500px";
-                    break;
-                case 'D':
-                    z.className="troopZoneD";
-                    self.root.shipZones[id].setPattern('diagonal');
-                    self.root.shipZones[id].item_margin = 60;
-                    break;
-                case 'E':
-                    z.className="shipZoneE";
-                    z.style.maxWidth="210px";
-                    z.style.height="210px";
-                    self.root.shipZones[id].setPattern('ellipticalfit');
-                    break;
-            }
-        }
-        self.root.dockZones={};
-        for (var p in this.provinces) {
-            for (var s in provinces[p].docks) {
-                self.root.dockZones[p][s]=new ebg.zone();
-                var z=dojo.place('<div id="sockZone-'+p+'-'+s+'"/>', "map-tokens");
-                z.style.left=this.provinces[p].docks[s].slot.x+"px";
-                z.style.top=this.provinces[p].docks[s].slot.y+"px";
-                z.style.position="absolute";
-                z.className="shipZoneH";
-                z.style.maxWidth="500px";
-                self.root.dockZones[p][s].create(self.root, "dockZone-"+p+"-"+s, 84, 84);
-            }
-        }
-        self.root.borderZones={};
-        for (var p in this.provinces) {
-            for (var b in provinces[p].borders) {
-                self.root.borderZones[p][s]=new ebg.zone();
-                var z=dojo.place('<div id="borderZone-'+p+'-'+b+'"/>', "map-tokens");
-                z.style.left=this.provinces[p].borders[s].slot.x+"px";
-                z.style.top=this.provinces[p].borders[s].slot.y+"px";
-                z.style.position="absolute";
-                self.root.borderZones[p][b].create(self.root, "borderZone-"+p+"-"+b, 84, 84);
-                z.className="shipZoneH";
-                z.style.maxWidth="500px";
-            }
-        }
     };
 
     self.startZoomIn=function() {
@@ -1407,7 +1409,7 @@ var Board = (function () {
         } else {
             this.root.dockZones[bProv][bBorder].placeInZone("border-"+tId,tWeight);
         }
-        border.style.transform="rotate("+this.provinces[bFrom].borders[bTo].slot.andle+"deg)";
+        border.style.transform="rotate("+provinces[bFrom].borders[bTo].slot.andle+"deg)";
         if (bValue!=null) {
             var value=dojo.place('<div class="border-value">'+bValue+'</div>', border);
             value.style.color=[
@@ -1419,7 +1421,7 @@ var Board = (function () {
                 'red',
                 'green'
             ][this.player2color(bPlayer)];
-            value.style.transform="rotate("+(-this.provinces[bFrom].borders[bTo].slot.angle)+"deg)";
+            value.style.transform="rotate("+(-provinces[bFrom].borders[bTo].slot.angle)+"deg)";
         }
         return border
     };
