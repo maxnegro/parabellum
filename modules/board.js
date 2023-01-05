@@ -15,10 +15,10 @@ var Board = (function () {
 
     self.Init = function (aRoot) {
         this.root = aRoot;
-        vDiv = document.getElementById("map");
+        var vDiv = document.getElementById("map");
         // PanZoom
-        mDiv=document.getElementById("map");
-        box=document.querySelector("#board");
+        var mDiv=document.getElementById("map");
+        var box=document.querySelector("#board");
         mBoxSize = {
             x: box.offsetWidth,
             y: box.offsetHeight,
