@@ -1062,7 +1062,6 @@ var Board = (function () {
                 case 'E':
                     z.className="troopZoneE";
                     z.style.maxWidth="210px";
-                    z.style.height="210px";
                     this.root.troopZones[id].setPattern('ellipticalfit');
                     break;
             }
@@ -1092,7 +1091,6 @@ var Board = (function () {
                 case 'E':
                     z.className="shipZoneE";
                     z.style.maxWidth="210px";
-                    z.style.height="210px";
                     this.root.shipZones[id].setPattern('ellipticalfit');
                     break;
             }

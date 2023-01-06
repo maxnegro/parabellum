@@ -213,6 +213,9 @@ div.troopZoneH { width: 200px; height: 90px; }
 div.troopZoneV { width: 90px; height: 200px; }
 div.troopZoneD { width: 144px; height: 144px; }
 div.troopZoneE { width: 208px; height: 208px; }
+div.shipZoneE { width: 210px; height: 210px; }
+div.dockZoneH { width: 84px; height: 84px; }
+div.borderZoneH { width: 84px; height: 84px; }
 
 
 
