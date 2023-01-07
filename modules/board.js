@@ -1423,7 +1423,17 @@ var Board = (function () {
         }
         return border
     };
+    
+    self.dockPulse = function(province) {
+        for (var dock in provinces[province].docks) {
+            console.log('dockZone-'+province+'-'+dock);
+            dojo.addClass(`dockZone-${province}-${dock}`, 'pulse');
+        }
+    }
 
+    self.dockPulseClearAll = function() {
+        dojo.query('.dockZoneH').removeClass('pulse');
+    }
     // ***** End *****
     return self;
 })();

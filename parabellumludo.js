@@ -32,6 +32,7 @@ function (dojo, declare) {
             // Example:
             // this.myGlobalValue = 0;
             this.current_year = 0;
+            this.troops = null;
             Board.Init(this);
         },
 
@@ -78,6 +79,7 @@ function (dojo, declare) {
             this.current_year = new ebg.counter();
             this.current_year.create('consular_year');
             this.current_year.toValue(gamedatas.consular_year);
+            this.troops = gamedatas.troops;
 
             for ( var province_id in gamedatas.province_deck ) {
                 var province =  gamedatas.province_deck[province_id];
@@ -125,6 +127,19 @@ function (dojo, declare) {
 
                 break;
            */
+            case 'playerShipPlacement':
+                if (this.isCurrentPlayerActive() ) {
+                    for (var troop in this.troops) {
+                        // console.log(this.troops[troop]);
+                        console.log(this.player_id);
+                        console.log(this.troops[troop].player_id);
+                        if (this.troops[troop].troop_player_id == this.player_id) {
+                            // TODO: check if province meets requirements for ship construction
+                            Board.dockPulse(this.troops[troop].troop_location_id);
+                        }
+                    }
+                }
+                break;
 
 
             case 'dummmy':
@@ -151,7 +166,11 @@ function (dojo, declare) {
 
                 break;
            */
-
+            case 'playerShipPlacement':
+                if (this.isCurrentPlayerActive() ) {
+                    Board.dockPulseClearAll();
+                }
+                break;
 
             case 'dummmy':
                 break;

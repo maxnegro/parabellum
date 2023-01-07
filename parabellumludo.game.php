@@ -307,7 +307,8 @@ class ParaBellumLudo extends Table
     }
 
     function pblIsLastPlayer() {
-        $this->activeNextPlayer();
+        $player = $this->activeNextPlayer();
+        // $this->GiveExtraTime($player);
         $nextPlayerTable = $this->getNextPlayerTable();
         if ($this->getActivePlayerId() == $nextPlayerTable[0]) {
             $this->gamestate->nextState('barbarianInvasions');
@@ -497,6 +498,7 @@ class ParaBellumLudo extends Table
         }
 
         // End turn
+        $player = $this->getActivePlayerId();
         $this->gamestate->nextState('newYear');
     }
  
